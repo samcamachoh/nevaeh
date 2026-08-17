@@ -785,12 +785,18 @@ button,input,select,textarea{font:inherit;color:inherit;}
 
         <div>
           <!--
-            ▸ TO RECEIVE SUBMISSIONS: point this form at a form service.
-              Formspree:  <form action="https://formspree.io/f/YOUR_ID" method="POST">
-              Netlify:    add  netlify  and  name="inquiry"  to the <form> tag
-              Then delete the preventDefault() branch in the script at the bottom.
+            ▸ TO START RECEIVING INQUIRIES BY EMAIL — this is the only edit needed.
+
+              1. Sign up at https://formspree.io (the free plan covers 50/month)
+              2. Create a new form; it gives you an ID that looks like "xbjnvqwe"
+              3. Replace YOUR_FORM_ID in the action below with that ID
+
+              Nothing else has to change. Until it is replaced, the form still
+              validates and shows the visitor their details with an email link,
+              so the page is never broken — it just can't deliver on its own.
           -->
-          <form class="form" id="inqForm" novalidate>
+          <form class="form" id="inqForm" novalidate
+                action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
             <div class="fgrid">
               <div class="field">
                 <label for="f-name">Your name <span class="req" aria-hidden="true">*</span></label>
@@ -860,10 +866,13 @@ button,input,select,textarea{font:inherit;color:inherit;}
 
             </div>
 
+            <!-- _gotcha is Formspree's own spam trap: bots fill it, people don't.
+                 _subject sets the subject line of the email you receive. -->
             <p class="hp" aria-hidden="true">
-              <label for="f-company">Leave this blank</label>
-              <input id="f-company" name="company" type="text" tabindex="-1" autocomplete="off">
+              <label for="f-gotcha">Leave this blank</label>
+              <input id="f-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
             </p>
+            <input type="hidden" name="_subject" id="f-subject" value="New coffee bar inquiry">
 
             <div class="form-foot">
               <p class="fine">We reply within 24 hours. We never share your details.</p>
@@ -1026,9 +1035,10 @@ button,input,select,textarea{font:inherit;color:inherit;}
   /* ── Inquiry form ─────────────────────────────────────────────── */
   var form   = document.getElementById("inqForm");
   var sent   = document.getElementById("sent");
-  var recap  = document.getElementById("recap");
-  var mailer = document.getElementById("mailLink");
-  var again  = document.getElementById("againBtn");
+  var recap   = document.getElementById("recap");
+  var mailer  = document.getElementById("mailLink");
+  var again   = document.getElementById("againBtn");
+  var sentMsg = document.getElementById("sentMsg");
   if (!form) return;
 
   var LABELS = {
@@ -1080,10 +1090,42 @@ button,input,select,textarea{font:inherit;color:inherit;}
     return d.toLocaleDateString(undefined, {weekday:"long", month:"long", day:"numeric", year:"numeric"});
   }
 
+  /* Is a real Formspree form ID in place, or is the placeholder still there? */
+  var endpoint = form.getAttribute("action") || "";
+  var wired = /^https:\/\/formspree\.io\/f\/[A-Za-z0-9]+$/.test(endpoint) &&
+              endpoint.indexOf("YOUR_FORM_ID") === -1;
+
+  var submitBtn = form.querySelector('button[type="submit"]');
+  var busy = false;
+
+  function showSent(mode){
+    // delivered  → it reached the inbox; the email link is a courtesy
+    // fallback   → nothing was sent, so the email link is the actual next step
+    if (mode === "delivered") {
+      sentMsg.textContent = "Your inquiry is on its way. We'll be in touch within 24 hours.";
+      mailer.textContent  = "Send yourself a copy";
+      mailer.className    = "btn btn-ghost";
+    } else {
+      sentMsg.textContent = "Here's what you entered. Send it over and we'll reply within 24 hours.";
+      mailer.textContent  = "Email it to us now";
+      mailer.className    = "btn";
+    }
+    form.classList.add("is-off");
+    sent.classList.add("is-on");
+    sent.focus();
+  }
+
+  function resetBtn(){
+    busy = false;
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Send inquiry";
+  }
+
   form.addEventListener("submit", function(e){
     e.preventDefault();
+    if (busy) return;
 
-    if (form.company.value) return;            // honeypot
+    if (form.elements["_gotcha"].value) return;      // spam trap
 
     var bad = null;
     RULES.forEach(function(rule){
@@ -1112,20 +1154,40 @@ button,input,select,textarea{font:inherit;color:inherit;}
       lines.push(LABELS[key] + ": " + val);
     });
 
+    /* A subject line that's useful in an inbox full of inquiries. */
     var subject = "Coffee bar inquiry — " + (data.get("name") || "") +
                   " — " + prettyDate(data.get("date"));
+    document.getElementById("f-subject").value = subject;
+    data.set("_subject", subject);
+
     mailer.setAttribute("href",
       "mailto:hello@nevaehcoffee.com?subject=" + encodeURIComponent(subject) +
       "&body=" + encodeURIComponent(lines.join("\n")));
 
-    form.classList.add("is-off");
-    sent.classList.add("is-on");
-    sent.focus();
+    if (!wired) { showSent("fallback"); return; }
+
+    busy = true;
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending…";
+
+    fetch(endpoint, {
+      method: "POST",
+      body: data,
+      headers: { "Accept": "application/json" }
+    }).then(function(res){
+      resetBtn();
+      showSent(res.ok ? "delivered" : "fallback");
+    }).catch(function(){
+      /* Offline, blocked, or the request never landed — never claim it sent. */
+      resetBtn();
+      showSent("fallback");
+    });
   });
 
   again.addEventListener("click", function(){
     sent.classList.remove("is-on");
     form.classList.remove("is-off");
+    resetBtn();
     form.name.focus();
   });
 })();

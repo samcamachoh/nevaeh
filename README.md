@@ -36,18 +36,31 @@ Any static host works, since the whole site is one file:
 
 Three things still need real values.
 
-**1. The inquiry form doesn't deliver anywhere yet.** A static page can't receive
-submissions on its own. Right now the form validates, shows the visitor a recap of
-what they entered, and offers a pre-filled email link. To have submissions arrive
-in an inbox, point the form at a form service — look for the comment block above
-`<form class="form" id="inqForm">` in `index.html`:
+**1. The inquiry form needs a Formspree form ID.** This is a one-line change.
+
+1. Sign up at [formspree.io](https://formspree.io) — the free plan covers 50
+   submissions a month, which is plenty for event inquiries
+2. Create a form; Formspree gives you an ID that looks like `xbjnvqwe`
+3. In `index.html`, find the `<form>` tag and swap the placeholder into the
+   action:
 
 ```html
-<form action="https://formspree.io/f/YOUR_ID" method="POST">
+<form class="form" id="inqForm" novalidate
+      action="https://formspree.io/f/xbjnvqwe" method="POST">
 ```
 
-Then remove the `e.preventDefault()` branch in the submit handler near the bottom
-of the file.
+That's the only edit. Formspree will email you the first time a submission
+comes in, to confirm the address.
+
+The form posts over `fetch` so the visitor stays on the page and sees the
+confirmation panel rather than being bounced to Formspree. Two hidden fields do
+work behind the scenes: `_subject` sets the email subject to
+`Coffee bar inquiry — {name} — {date}` so inquiries are scannable in an inbox,
+and `_gotcha` is a spam trap that bots fill in and people never see.
+
+Until a real ID is in place — and if a send ever fails — the form still
+validates, shows the visitor their details, and offers a pre-filled email link.
+It never tells anyone their inquiry was sent when it wasn't.
 
 **2. Contact details are placeholders.** Search `index.html` and replace:
 
