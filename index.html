@@ -156,7 +156,7 @@ section[id],main[id]{scroll-margin-top:5rem;}
   font-family:var(--f-body);font-size:14px;font-weight:600;
   fill:currentColor;letter-spacing:.02em;
 }
-.nav{display:none;gap:1.65rem;}
+.nav{display:flex;flex-wrap:wrap;gap:1.65rem;}
 .nav a{
   position:relative;
   text-decoration:none;font-size:.8125rem;font-weight:500;letter-spacing:.04em;
@@ -170,7 +170,54 @@ section[id],main[id]{scroll-margin-top:5rem;}
 }
 .nav a:hover,.nav a.is-active{color:var(--night-ink);}
 .nav a:hover::after,.nav a.is-active::after{transform:scaleX(1);}
-@media (min-width:900px){.nav{display:flex;}}
+
+/* ── Mobile menu ────────────────────────────────────────────────────
+   The toggle only appears when scripts are running, and the nav only
+   hides in that same case — so with JS off the links stay in the header
+   rather than vanishing behind a button that cannot open.            */
+.navtoggle{
+  display:none;margin-left:auto;
+  width:44px;height:44px;padding:0;
+  align-items:center;justify-content:center;
+  background:transparent;border:1px solid color-mix(in srgb,var(--night-ink) 22%,transparent);
+  border-radius:999px;cursor:pointer;color:var(--night-ink);
+  transition:background .2s ease,border-color .2s ease;
+}
+.navtoggle:hover{background:color-mix(in srgb,var(--night-ink) 8%,transparent);}
+.navtoggle-box{position:relative;display:block;width:17px;height:12px;}
+.navtoggle-box i{
+  position:absolute;left:0;right:0;height:1.5px;border-radius:2px;
+  background:currentColor;
+  transition:transform .28s var(--ease),opacity .2s ease,top .28s var(--ease);
+}
+.navtoggle-box i:nth-child(1){top:0;}
+.navtoggle-box i:nth-child(2){top:5.25px;}
+.navtoggle-box i:nth-child(3){top:10.5px;}
+.navtoggle[aria-expanded="true"] .navtoggle-box i:nth-child(1){top:5.25px;transform:rotate(45deg);}
+.navtoggle[aria-expanded="true"] .navtoggle-box i:nth-child(2){opacity:0;}
+.navtoggle[aria-expanded="true"] .navtoggle-box i:nth-child(3){top:5.25px;transform:rotate(-45deg);}
+
+@media (max-width:899px){
+  .js .navtoggle{display:inline-flex;}
+  .js .nav{
+    display:none;position:absolute;top:100%;left:0;right:0;
+    flex-direction:column;gap:0;
+    padding:.35rem var(--gutter) 1rem;
+    background:var(--night);
+    border-bottom:1px solid var(--night-line);
+  }
+  .js .nav.is-open{display:flex;}
+  .js .nav a{
+    font-size:1rem;letter-spacing:.01em;padding-block:.85rem;
+    border-bottom:1px solid var(--night-line);
+  }
+  .js .nav a:last-child{border-bottom:none;}
+  .js .nav a::after{display:none;}   /* the desktop underline sweep */
+}
+@media (prefers-reduced-motion:reduce){
+  .navtoggle-box i{transition:none;}
+}
+
 
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
@@ -321,6 +368,15 @@ section[id],main[id]{scroll-margin-top:5rem;}
 .offer-cell h3{
   font-family:var(--f-display);font-size:1.3rem;letter-spacing:-.024em;
   margin-bottom:.7rem;line-height:1.2;
+}
+
+@media (max-width:759px){
+  /* Two-up halves the scroll through six cells; the padding and type come
+     down with it so the narrower column still breathes. */
+  .offer{grid-template-columns:1fr 1fr;}
+  .offer-cell{padding:1.15rem 1rem 1.3rem;}
+  .offer-cell h3{font-size:1.0625rem;line-height:1.25;}
+  .offer-cell p{font-size:.9375rem;line-height:1.5;}
 }
 .offer-cell p{color:var(--ink-soft);font-size:.9375rem;}
 
@@ -544,7 +600,9 @@ section[id],main[id]{scroll-margin-top:5rem;}
   :root{--band:3.5rem;}
 
   /* 15px body copy is under the comfortable reading floor on a handset. */
-  .offer-cell p,.note,.faq-item .ans,.shead p{font-size:1rem;}
+  /* .offer-cell p is deliberately absent: those cells are two-up below
+     760px, so they keep the smaller size set with that layout. */
+  .note,.faq-item .ans,.shead p{font-size:1rem;}
 
   /* Footer links were 23px tall — half the 44px minimum for a thumb. */
   .foot-col a{padding-block:.7rem;margin-bottom:0;}
@@ -596,13 +654,16 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
       <svg class="brand-mark" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
       <span class="brand-txt">Nevaeh Coffee Company</span>
     </a>
-    <nav class="nav" aria-label="Primary">
+    <nav class="nav" id="primaryNav" aria-label="Primary">
       <a href="#events">What We Do</a>
       <a href="#bar">The Bar</a>
       <a href="#area">Where We Travel</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a class="btn btn-hdr" href="#inquire">Learn More</a>
+    <button class="navtoggle" id="navToggle" type="button"
+            aria-controls="primaryNav" aria-expanded="false" aria-label="Open menu">
+      <span class="navtoggle-box" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
   </div>
 </header>
 
@@ -626,7 +687,6 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
       </p>
       <div class="hero-cta rise rise-4">
         <a class="btn" href="#inquire">Learn More</a>
-        <a class="btn btn-ghost" href="#bar">See the Bar</a>
       </div>
     </div>
     <div class="facts">
@@ -919,6 +979,38 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
   /* ── Year ─────────────────────────────────────────────────────── */
   var yr = document.getElementById("yr");
   if (yr) yr.textContent = new Date().getFullYear();
+
+  /* ── Mobile menu ───────────────────────────────────────────────── */
+  var navToggle = document.getElementById("navToggle");
+  var primaryNav = document.getElementById("primaryNav");
+
+  function setNav(open){
+    primaryNav.classList.toggle("is-open", open);
+    navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  }
+  function navOpen(){ return primaryNav.classList.contains("is-open"); }
+
+  navToggle.addEventListener("click", function(){ setNav(!navOpen()); });
+
+  /* Jumping to a section should leave the menu behind. */
+  primaryNav.addEventListener("click", function(e){
+    if (e.target.closest("a")) setNav(false);
+  });
+
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape" && navOpen()) { setNav(false); navToggle.focus(); }
+  });
+
+  document.addEventListener("click", function(e){
+    if (navOpen() && !e.target.closest(".hdr")) setNav(false);
+  });
+
+  /* Widening past the breakpoint reveals the inline nav; drop the panel
+     state so it doesn't linger as an open dropdown. */
+  window.addEventListener("resize", function(){
+    if (window.innerWidth >= 900 && navOpen()) setNav(false);
+  }, {passive:true});
 
   /* ── Sticky header: hairline + scroll progress ─────────────────── */
   var hdr = document.getElementById("hdr");
