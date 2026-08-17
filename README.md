@@ -83,6 +83,19 @@ The palette is built from the two colors in the logo: the cream `#F1F3E8` and th
 camel `#CBA98A`. The camel is darkened to `#8C6035` for text and buttons on cream
 so it stays legible; at full strength it's used on the dark bands.
 
+The hero art is a canvas field, not a photograph: value noise, twisted around a
+point off to the right and folded back on itself so it draws thin bright veins,
+which reads as milk turning into a shot. It renders into a buffer about a
+seventh of the page width and scales up under a CSS blur, so the per-pixel cost
+stays small; the polar table it samples through is rebuilt only on resize.
+
+Two scrims sit over it — a column that keeps the copy off the veins, and the
+fade down into the facts strip. Those are measured rather than guessed: sampling
+the composited backdrop under the real glyph rects across frames, the headline
+holds 11:1, the body copy 6.4:1 and the eyebrow 8:1 on desktop, with the tightest
+case (tablet body copy) at 4.8:1. Below 900px the copy runs full width, so there
+is no side to push the pour to and it is damped everywhere instead.
+
 The dark sections (hero, service-area map, inquiry form) are a fixed register
 rather than a theme inversion — the brand run in reverse, cream and camel on
 espresso. The page also supports the visitor's light/dark preference: all colors
