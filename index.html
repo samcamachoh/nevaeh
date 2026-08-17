@@ -125,10 +125,6 @@ button,input,select,textarea{font:inherit;color:inherit;}
 
 .wrap{width:min(1160px,100% - var(--gutter)*2);margin-inline:auto;}
 .band{padding-block:var(--band);}
-.eyebrow{
-  font-size:.6875rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--ink-faint);margin:0;
-}
 .lede{font-size:var(--s-2);line-height:1.5;color:var(--ink-soft);max-width:34ch;}
 .serif-it{font-family:var(--f-display);font-style:italic;}
 
@@ -267,7 +263,6 @@ button,input,select,textarea{font:inherit;color:inherit;}
 
 /* ── Section heads ─────────────────────────────────────────────────── */
 .shead{max-width:var(--measure);margin-bottom:clamp(2.5rem,5vw,3.75rem);}
-.shead .eyebrow{margin-bottom:1.1rem;}
 .shead h2{
   font-family:var(--f-display);
   font-size:clamp(2rem,4.6vw,3.4rem);letter-spacing:-.012em;
@@ -378,7 +373,6 @@ button,input,select,textarea{font:inherit;color:inherit;}
 
 /* ── Service area (nocturne band) ──────────────────────────────────── */
 .area{background:var(--night);color:var(--night-ink);}
-.area .eyebrow{color:var(--night-faint);}
 .area h2{font-family:var(--f-display);font-size:clamp(2rem,4.6vw,3.4rem);letter-spacing:-.012em;max-width:16ch;}
 .area h2 em{font-style:italic;color:var(--night-accent);}
 .area-grid{display:grid;gap:clamp(2.5rem,5vw,4rem);align-items:center;}
@@ -468,10 +462,9 @@ button,input,select,textarea{font:inherit;color:inherit;}
 .inquire{background:var(--night);color:var(--night-ink);}
 .inq-grid{display:grid;gap:clamp(2.5rem,5vw,4.5rem);align-items:start;}
 @media (min-width:940px){.inq-grid{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);}}
-.inq-intro .eyebrow{color:var(--night-faint);}
 .inq-intro h2{
   font-family:var(--f-display);font-size:clamp(2.1rem,4.8vw,3.5rem);
-  letter-spacing:-.012em;margin:1.1rem 0 1.25rem;max-width:13ch;
+  letter-spacing:-.012em;margin:0 0 1.25rem;max-width:13ch;
 }
 .inq-intro h2 em{font-style:italic;color:var(--night-accent);}
 .inq-intro p{color:var(--night-soft);max-width:38ch;}
@@ -656,7 +649,6 @@ button,input,select,textarea{font:inherit;color:inherit;}
   <section class="band intro">
     <div class="wrap">
       <div class="shead">
-        <p class="eyebrow">What rolls up</p>
         <h2>Not a coffee urn on a folding table. <em>An actual bar.</em></h2>
         <p>
           Everything arrives on our cart: commercial espresso machine, grinder, cold brew
@@ -709,7 +701,6 @@ button,input,select,textarea{font:inherit;color:inherit;}
   <section class="band menu" id="menu">
     <div class="wrap">
       <div class="shead">
-        <p class="eyebrow">The bar</p>
         <h2>A menu your guests will <em>actually finish.</em></h2>
         <p>
           We print a custom board for your event. This is the working list — pick your
@@ -779,7 +770,6 @@ button,input,select,textarea{font:inherit;color:inherit;}
   <section class="band pkgs" id="packages">
     <div class="wrap">
       <div class="shead">
-        <p class="eyebrow">Packages</p>
         <h2>Priced by guest count and <em>hours on the clock.</em></h2>
         <p>
           Every package includes travel within 60 miles of Orlando, setup and breakdown,
@@ -851,7 +841,6 @@ button,input,select,textarea{font:inherit;color:inherit;}
     <div class="wrap">
       <div class="area-grid">
         <div class="area-copy">
-          <p class="eyebrow">Where we travel</p>
           <h2>Central Florida is <em>our whole map.</em></h2>
           <p>
             We're based in Orlando and we know these venues — the lakefront barns in Mount
@@ -931,7 +920,6 @@ button,input,select,textarea{font:inherit;color:inherit;}
   <section class="band how" id="how">
     <div class="wrap">
       <div class="shead">
-        <p class="eyebrow">How it works</p>
         <h2>Five steps, and <em>four of them are ours.</em></h2>
       </div>
 
@@ -969,7 +957,6 @@ button,input,select,textarea{font:inherit;color:inherit;}
   <section class="band faq" id="faq">
     <div class="wrap">
       <div class="shead">
-        <p class="eyebrow">Good questions</p>
         <h2>The things every planner asks us <em>first.</em></h2>
       </div>
 
@@ -1011,7 +998,6 @@ button,input,select,textarea{font:inherit;color:inherit;}
     <div class="wrap">
       <div class="inq-grid">
         <div class="inq-intro">
-          <p class="eyebrow">Check your date</p>
           <h2>Tell us about <em>your day.</em></h2>
           <p>
             Fill this out and we'll come back within 24 hours with availability, a quote,
