@@ -64,7 +64,7 @@ It never tells anyone their inquiry was sent when it wasn't.
 
 **2. Contact details are placeholders.** Search `index.html` and replace:
 
-- `hello@nevaehcoffee.com`
+- `wearenevaehco@gmail.com`
 - `(407) 555-0134` — currently a reserved fictional number, not a working line
 
 **3. There is no pricing on the site**, by design — you don't have rates set yet.
