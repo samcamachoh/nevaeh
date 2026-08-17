@@ -19,10 +19,10 @@ form.
 | `index.html` | The entire site — markup, styles, and scripts in one file |
 | `Nevaeh (1).png` | The original logo artwork |
 
-`index.html` is fully self-contained. The two typefaces (Instrument Serif and
-Archivo) are embedded as base64 `@font-face` sources, and the logo is an inline
-SVG path traced from the PNG, so the page renders identically offline and on any
-host. Nothing is fetched from a CDN.
+`index.html` is fully self-contained. The typeface (Archivo) is embedded as a
+base64 `@font-face` source, and the logo is an inline SVG path traced from the
+PNG, so the page renders identically offline and on any host. Nothing is fetched
+from a CDN.
 
 ## Deploying
 
@@ -59,6 +59,12 @@ The FAQ and the inquiry section both say every event is quoted individually. Whe
 you're ready to publish rates, that's the place to change the wording.
 
 ## Design notes
+
+Type is one family in two roles: Archivo, a variable grotesk covering 400–700.
+Display text (the wordmark, headings, the facts strip) runs at 600 with tight
+negative tracking; body copy is 400. Both roles read from their own token
+(`--f-display`, `--f-body`, aliased to `--f-sans`) so either can move
+independently, and `--display-tracking` holds the heading letter-spacing.
 
 The palette is built from the two colors in the logo: the cream `#F1F3E8` and the
 camel `#CBA98A`. The camel is darkened to `#8C6035` for text and buttons on cream
