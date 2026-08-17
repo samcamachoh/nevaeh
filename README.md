@@ -36,33 +36,20 @@ Any static host works, since the whole site is one file:
 
 Three things still need real values.
 
-**1. The inquiry form needs a Formspree form ID.** This is a one-line change.
+**1. The inquiry form is a Typeform embed** (`01M08MGAQNE8WCJ1ZZADV67VXS`),
+rendered by the loader script at the end of `index.html`. Responses go to the
+Typeform account that owns the form — not to this repo and not to email unless
+Typeform notifications are switched on there.
 
-1. Sign up at [formspree.io](https://formspree.io) — the free plan covers 50
-   submissions a month, which is plenty for event inquiries
-2. Create a form; Formspree gives you an ID that looks like `xbjnvqwe`
-3. In `index.html`, find the `<form>` tag and swap the placeholder into the
-   action:
+To change the questions, edit the form in Typeform; the site needs no change.
+To swap in a different form, replace the ID in the `data-tf-live` attribute.
 
-```html
-<form class="form" id="inqForm" novalidate
-      action="https://formspree.io/f/xbjnvqwe" method="POST">
-```
+Note that the embed loads a third-party script, so the form only appears when
+the page is served over http/https with a network connection. Opening
+`index.html` straight off disk still renders the whole site, but that panel
+stays empty.
 
-That's the only edit. Formspree will email you the first time a submission
-comes in, to confirm the address.
-
-The form posts over `fetch` so the visitor stays on the page and sees the
-confirmation panel rather than being bounced to Formspree. Two hidden fields do
-work behind the scenes: `_subject` sets the email subject to
-`Coffee bar inquiry — {name} — {date}` so inquiries are scannable in an inbox,
-and `_gotcha` is a spam trap that bots fill in and people never see.
-
-Until a real ID is in place — and if a send ever fails — the form still
-validates, shows the visitor their details, and offers a pre-filled email link.
-It never tells anyone their inquiry was sent when it wasn't.
-
-**2. Contact details are placeholders.** Search `index.html` and replace:
+**2. The phone number is a placeholder.** Search `index.html` and replace:
 
 - `wearenevaehco@gmail.com`
 - `(407) 555-0134` — currently a reserved fictional number, not a working line

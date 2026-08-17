@@ -195,11 +195,10 @@ section[id],main[id]{scroll-margin-top:5rem;}
 .btn-ghost:hover{background:color-mix(in srgb,var(--night-ink) 8%,transparent);}
 /* Buttons sitting on a nocturne band run camel-on-espresso, not the
    roasted light-theme accent, which would disappear against the dark. */
-.btn-hdr,.hero .btn:not(.btn-ghost),.form .btn,.sent .btn:not(.btn-ghost){
+.btn-hdr,.hero .btn:not(.btn-ghost){
   background:var(--night-accent);color:#1A1510;
 }
-.btn-hdr:hover,.hero .btn:not(.btn-ghost):hover,.form .btn:hover,
-.sent .btn:not(.btn-ghost):hover{background:#DCBB9C;}
+.btn-hdr:hover,.hero .btn:not(.btn-ghost):hover{background:#DCBB9C;}
 .btn-hdr{padding:.6rem 1.05rem;}
 
 /* ── Hero ──────────────────────────────────────────────────────────── */
@@ -449,87 +448,17 @@ section[id],main[id]{scroll-margin-top:5rem;}
 }
 .inq-direct a{transition:color .18s ease,border-color .18s ease;}
 .inq-direct a:hover{color:var(--night-accent);border-bottom-color:var(--night-accent);}
+.tf-embed{
+  min-height:520px;
+  background:var(--night-2);
+  border:1px solid var(--night-line);
+  border-radius:var(--radius);
+  overflow:hidden;
+}
+.tf-embed > div{min-height:520px;}
+@media (min-width:940px){.tf-embed,.tf-embed > div{min-height:600px;}}
+
 .inq-direct .small{font-size:.8125rem;color:var(--night-faint);}
-
-.form{
-  background:var(--night-2);border:1px solid var(--night-line);border-radius:var(--radius);
-  padding:clamp(1.5rem,3.5vw,2.5rem);
-  color-scheme:dark;   /* keeps the native date picker legible on the dark panel */
-}
-.fgrid{display:grid;gap:1.15rem;}
-@media (min-width:620px){
-  .fgrid{grid-template-columns:1fr 1fr;}
-  .col-2{grid-column:span 2;}
-}
-.field{display:flex;flex-direction:column;gap:.45rem;min-width:0;}
-.field label{
-  font-size:.6875rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--night-faint);
-}
-.field label .req{color:var(--night-accent);}
-.field input,.field select,.field textarea{
-  width:100%;padding:.8rem .9rem;
-  background:var(--night-3);
-  color:var(--night-ink);
-  border:1px solid var(--night-line);border-radius:var(--radius);
-  font-size:.9375rem;
-  transition:border-color .18s ease,background .18s ease;
-}
-.field textarea{resize:vertical;min-height:112px;line-height:1.55;}
-.field select{
-  appearance:none;
-  background-image:linear-gradient(45deg,transparent 50%,#B0A493 50%),
-                   linear-gradient(135deg,#B0A493 50%,transparent 50%);
-  background-position:calc(100% - 18px) calc(50% + 1px),calc(100% - 13px) calc(50% + 1px);
-  background-size:5px 5px,5px 5px;background-repeat:no-repeat;
-  padding-right:2.5rem;
-}
-.field option{background:#231C15;color:#F1F3E8;}
-.field input::placeholder,.field textarea::placeholder{color:var(--night-faint);opacity:1;}
-.field input,.field select,.field textarea{
-  transition:border-color .2s ease,background .2s ease,box-shadow .2s ease;
-}
-.field input:focus,.field select:focus,.field textarea:focus{
-  border-color:var(--night-accent);background:color-mix(in srgb,var(--night-3) 70%,var(--night-2));
-  box-shadow:0 0 0 3px color-mix(in srgb,var(--night-accent) 18%,transparent);
-}
-.field input[aria-invalid="true"],.field select[aria-invalid="true"],.field textarea[aria-invalid="true"]{
-  border-color:var(--night-danger);
-}
-.err{font-size:.75rem;color:var(--night-danger);min-height:0;}
-.err:empty{display:none;}
-.form-foot{
-  margin-top:1.75rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:center;
-  justify-content:space-between;
-}
-.form-foot .fine{font-size:.75rem;color:var(--night-faint);max-width:34ch;}
-.form .btn{padding:.85rem 1.75rem;}
-.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
-
-.sent{
-  display:none;text-align:left;padding:clamp(1.5rem,3.5vw,2.5rem);
-  background:var(--night-2);border:1px solid var(--night-accent);border-radius:var(--radius);
-}
-.sent.is-on{display:block;}
-.form.is-off{display:none;}
-.sent-ico{width:34px;height:34px;color:var(--night-accent);margin-bottom:1.1rem;}
-.sent h3{
-  font-family:var(--f-display);font-size:1.65rem;letter-spacing:-.026em;
-  margin-bottom:.65rem;
-}
-.sent p{color:var(--night-soft);max-width:44ch;}
-.recap{
-  margin:1.75rem 0;padding:1.25rem;background:var(--night-3);border-radius:var(--radius);
-  display:grid;gap:.55rem;font-size:.875rem;
-}
-.recap div{display:flex;gap:.75rem;}
-.recap dt{
-  flex:none;width:6.5rem;color:var(--night-faint);
-  font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;
-  padding-top:.2em;
-}
-.recap dd{margin:0;color:var(--night-ink);min-width:0;overflow-wrap:anywhere;}
-.sent-actions{display:flex;flex-wrap:wrap;gap:.75rem;}
 
 /* ── Footer ────────────────────────────────────────────────────────── */
 .foot{background:var(--night);color:var(--night-soft);border-top:1px solid var(--night-line);}
@@ -618,21 +547,6 @@ section[id],main[id]{scroll-margin-top:5rem;}
 }
 @keyframes fadeIn{to{opacity:1;}}
 
-/* ── Inquiry: submit, failure, confirmation ────────────────────────── */
-.btn[disabled]{opacity:.72;cursor:progress;transform:none;box-shadow:none;}
-.field .shake{animation:shake .32s ease;}
-@keyframes shake{
-  0%,100%{transform:none;} 22%{transform:translateX(-4px);}
-  55%{transform:translateX(4px);} 80%{transform:translateX(-2px);}
-}
-.js .sent.is-on{animation:panelIn .5s var(--ease) both;}
-@keyframes panelIn{from{opacity:0;transform:translateY(14px) scale(.99);}to{opacity:1;transform:none;}}
-.js .sent.is-on .recap div{animation:rowIn .45s var(--ease) both;animation-delay:calc(.18s + var(--i,0) * 60ms);}
-@keyframes rowIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
-.sent-ico{transition:transform .3s var(--ease);}
-.js .sent.is-on .sent-ico{animation:icoIn .55s var(--ease) .1s both;}
-@keyframes icoIn{from{opacity:0;transform:scale(.4) rotate(-12deg);}to{opacity:1;transform:none;}}
-
 /* ── Anyone who asked for less motion gets none of it ──────────────
    Reveals resolve to their finished state, the decorative loops stop,
    and the progress hairline stays (it reports position, it isn't
@@ -644,8 +558,6 @@ section[id],main[id]{scroll-margin-top:5rem;}
   .js .map .map-cap,.js .map .map-label-hub,.js .map .map-pin-hub{
     animation:none;opacity:1;transform:none;
   }
-  .js .sent.is-on,.js .sent.is-on .recap div,.js .sent.is-on .sent-ico{animation:none;}
-  .field .shake{animation:none;}
   .btn:hover{transform:none;box-shadow:none;}
   .tag:hover,.foot-col a:hover{transform:none;}
 }
@@ -935,11 +847,12 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
     <div class="wrap">
       <div class="inq-grid">
         <div class="inq-intro" data-reveal="left">
-          <h2>Tell us about <em>your day.</em></h2>
+          <!-- The Typeform carries its own welcome heading and intro, so this
+               column frames it rather than repeating the same words. -->
+          <h2>Check <em>your date.</em></h2>
           <p>
-            Fill this out and we'll come back within 24 hours with availability, a quote,
-            and a couple of drink ideas for your venue. No obligation, no pressure — we'd
-            rather answer questions early.
+            The form takes about two minutes. Prefer to talk it through instead?
+            Reach us directly — we answer everything ourselves.
           </p>
           <div class="inq-direct">
             <a href="mailto:wearenevaehco@gmail.com">wearenevaehco@gmail.com</a>
@@ -949,114 +862,11 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
         </div>
 
         <div>
-          <!--
-            ▸ TO START RECEIVING INQUIRIES BY EMAIL — this is the only edit needed.
-
-              1. Sign up at https://formspree.io (the free plan covers 50/month)
-              2. Create a new form; it gives you an ID that looks like "xbjnvqwe"
-              3. Replace YOUR_FORM_ID in the action below with that ID
-
-              Nothing else has to change. Until it is replaced, the form still
-              validates and shows the visitor their details with an email link,
-              so the page is never broken — it just can't deliver on its own.
-          -->
-          <form class="form" id="inqForm" data-reveal="right" novalidate
-                action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-            <div class="fgrid">
-              <div class="field">
-                <label for="f-name">Your name <span class="req" aria-hidden="true">*</span></label>
-                <input id="f-name" aria-describedby="e-name" name="name" type="text" autocomplete="name" required placeholder="Jordan Reyes">
-                <p class="err" id="e-name" aria-live="polite"></p>
-              </div>
-              <div class="field">
-                <label for="f-partner">Partner / company</label>
-                <input id="f-partner" name="partner" type="text" placeholder="Sam Alvarez">
-              </div>
-
-              <div class="field">
-                <label for="f-email">Email <span class="req" aria-hidden="true">*</span></label>
-                <input id="f-email" aria-describedby="e-email" name="email" type="email" autocomplete="email" required placeholder="you@email.com">
-                <p class="err" id="e-email" aria-live="polite"></p>
-              </div>
-              <div class="field">
-                <label for="f-phone">Phone</label>
-                <input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="(407) 555-0134">
-              </div>
-
-              <div class="field">
-                <label for="f-type">Event type <span class="req" aria-hidden="true">*</span></label>
-                <select id="f-type" aria-describedby="e-type" name="eventType" required>
-                  <option value="">Choose one</option>
-                  <option>Wedding — reception</option>
-                  <option>Wedding — ceremony or cocktail hour</option>
-                  <option>Engagement party or shower</option>
-                  <option>Corporate event or conference</option>
-                  <option>Brand activation or grand opening</option>
-                  <option>Private party</option>
-                  <option>Something else</option>
-                </select>
-                <p class="err" id="e-type" aria-live="polite"></p>
-              </div>
-              <div class="field">
-                <label for="f-date">Event date <span class="req" aria-hidden="true">*</span></label>
-                <input id="f-date" aria-describedby="e-date" name="date" type="date" required>
-                <p class="err" id="e-date" aria-live="polite"></p>
-              </div>
-
-              <div class="field">
-                <label for="f-venue">Venue or city <span class="req" aria-hidden="true">*</span></label>
-                <input id="f-venue" aria-describedby="e-venue" name="venue" type="text" required placeholder="Bella Collina, Montverde">
-                <p class="err" id="e-venue" aria-live="polite"></p>
-              </div>
-              <div class="field">
-                <label for="f-guests">Guest count</label>
-                <input id="f-guests" name="guests" type="number" min="1" max="2000" inputmode="numeric" placeholder="140">
-              </div>
-
-              <div class="field col-2">
-                <label for="f-hours">How long would you like the bar open?</label>
-                <select id="f-hours" name="hours">
-                  <option value="">Not sure yet</option>
-                  <option>1&ndash;2 hours</option>
-                  <option>3 hours</option>
-                  <option>4 hours</option>
-                  <option>More than 4 hours</option>
-                </select>
-              </div>
-
-              <div class="field col-2">
-                <label for="f-notes">Anything else we should know?</label>
-                <textarea id="f-notes" name="notes" placeholder="Outdoor reception under an oak, late-night service after the first dance, one of us is dairy-free…"></textarea>
-              </div>
-
-            </div>
-
-            <!-- _gotcha is Formspree's own spam trap: bots fill it, people don't.
-                 _subject sets the subject line of the email you receive. -->
-            <p class="hp" aria-hidden="true">
-              <label for="f-gotcha">Leave this blank</label>
-              <input id="f-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
-            </p>
-            <input type="hidden" name="_subject" id="f-subject" value="New coffee bar inquiry">
-
-            <div class="form-foot">
-              <p class="fine">We reply within 24 hours. We never share your details.</p>
-              <button class="btn" type="submit">Send inquiry</button>
-            </div>
-          </form>
-
-          <div class="sent" id="sent" role="status" aria-live="polite" tabindex="-1">
-            <svg class="sent-ico" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-              <circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="1.8"/>
-              <path d="M10.5 16.4l3.8 3.8 7.4-7.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <h3>Got it.</h3>
-            <p id="sentMsg">Thanks — here's what you sent us. We'll be in touch within 24 hours.</p>
-            <dl class="recap" id="recap"></dl>
-            <div class="sent-actions">
-              <a class="btn" id="mailLink" href="#">Email it to us now</a>
-              <button class="btn btn-ghost" type="button" id="againBtn">Edit and resend</button>
-            </div>
+          <!-- Typeform embed. The loader script at the end of the page renders
+               the form into this div; min-height holds the layout steady while
+               it loads. -->
+          <div class="tf-embed" data-reveal="right">
+            <div data-tf-live="01M08MGAQNE8WCJ1ZZADV67VXS"></div>
           </div>
         </div>
       </div>
@@ -1380,200 +1190,8 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
     }
   }
 
-  /* ── Inquiry form ─────────────────────────────────────────────── */
-  var form   = document.getElementById("inqForm");
-  var sent   = document.getElementById("sent");
-  var recap   = document.getElementById("recap");
-  var mailer  = document.getElementById("mailLink");
-  var again   = document.getElementById("againBtn");
-  var sentMsg = document.getElementById("sentMsg");
-  if (!form) return;
-
-  var LABELS = {
-    name:"Name", partner:"Partner", email:"Email", phone:"Phone",
-    eventType:"Event", date:"Date", venue:"Venue", guests:"Guests",
-    hours:"Hours", notes:"Notes"
-  };
-
-  function pad(n){ return (n < 10 ? "0" : "") + n; }
-  function todayISO(){
-    var d = new Date();
-    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
-  }
-
-  /* Past dates were accepted, in a form whose whole job is booking a future
-     date. The picker now greys them out and the rule below refuses them.
-     ISO date strings compare chronologically, so a string compare is enough. */
-  var dateEl = document.getElementById("f-date");
-  if (dateEl) dateEl.min = todayISO();
-
-  var RULES = [
-    {id:"f-name",  err:"e-name",  msg:"Please tell us your name.",
-      ok:function(v){ return v.trim().length > 1; }},
-    {id:"f-email", err:"e-email", msg:"Enter an email we can reply to.",
-      ok:function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()); }},
-    {id:"f-type",  err:"e-type",  msg:"Pick the kind of event.",
-      ok:function(v){ return v !== ""; }},
-    {id:"f-date",  err:"e-date",  msg:"Add the date you have in mind.",
-      ok:function(v){ return v !== "" && v >= todayISO(); },
-      msgFor:function(v){
-        return v === "" ? "Add the date you have in mind."
-                        : "That date has already passed — pick an upcoming one.";
-      }},
-    {id:"f-venue", err:"e-venue", msg:"A venue or city is enough.",
-      ok:function(v){ return v.trim().length > 1; }}
-  ];
-
-  function check(rule, show){
-    var el = document.getElementById(rule.id);
-    var box = document.getElementById(rule.err);
-    var good = rule.ok(el.value);
-    if (show) {
-      el.setAttribute("aria-invalid", good ? "false" : "true");
-      box.textContent = good ? "" : (rule.msgFor ? rule.msgFor(el.value) : rule.msg);
-    }
-    return good;
-  }
-
-  RULES.forEach(function(rule){
-    var el = document.getElementById(rule.id);
-    el.addEventListener("blur", function(){ check(rule, true); });
-    el.addEventListener("input", function(){
-      if (el.getAttribute("aria-invalid") === "true") check(rule, true);
-    });
-    el.addEventListener("change", function(){
-      if (el.getAttribute("aria-invalid") === "true") check(rule, true);
-    });
-  });
-
-  function prettyDate(v){
-    var p = String(v).split("-");
-    if (p.length !== 3) return v;
-    var d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
-    if (isNaN(d.getTime())) return v;
-    return d.toLocaleDateString(undefined, {weekday:"long", month:"long", day:"numeric", year:"numeric"});
-  }
-
-  /* Is a real Formspree form ID in place, or is the placeholder still there? */
-  var endpoint = form.getAttribute("action") || "";
-  var wired = /^https:\/\/formspree\.io\/f\/[A-Za-z0-9]+$/.test(endpoint) &&
-              endpoint.indexOf("YOUR_FORM_ID") === -1;
-
-  var submitBtn = form.querySelector('button[type="submit"]');
-  var busy = false;
-
-  function showSent(mode){
-    // delivered  → it reached the inbox; the email link is a courtesy
-    // fallback   → nothing was sent, so the email link is the actual next step
-    if (mode === "delivered") {
-      sentMsg.textContent = "Your inquiry is on its way. We'll be in touch within 24 hours.";
-      mailer.textContent  = "Send yourself a copy";
-      mailer.className    = "btn btn-ghost";
-    } else {
-      sentMsg.textContent = "Here's what you entered. Send it over and we'll reply within 24 hours.";
-      mailer.textContent  = "Email it to us now";
-      mailer.className    = "btn";
-    }
-    form.classList.add("is-off");
-    sent.classList.add("is-on");
-    sent.focus();
-  }
-
-  function shake(el){
-    if (reduce || !el) return;
-    el.classList.remove("shake");
-    void el.offsetWidth;                  // restart the animation on a re-submit
-    el.classList.add("shake");
-    el.addEventListener("animationend", function done(){
-      el.classList.remove("shake");
-      el.removeEventListener("animationend", done);
-    });
-  }
-
-  function resetBtn(){
-    busy = false;
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Send inquiry";
-  }
-
-  form.addEventListener("submit", function(e){
-    e.preventDefault();
-    if (busy) return;
-
-    var bad = null;
-    RULES.forEach(function(rule){
-      var good = check(rule, true);
-      var el = document.getElementById(rule.id);
-      if (!good && !bad) bad = el;
-      if (!good) shake(el);
-    });
-    if (bad) { bad.focus(); return; }
-
-    var data = new FormData(form);
-    var lines = [];
-    recap.innerHTML = "";
-
-    Object.keys(LABELS).forEach(function(key){
-      var val = (data.get(key) || "").toString().trim();
-      if (!val) return;
-      if (key === "date") val = prettyDate(val);
-
-      var row = document.createElement("div");
-      row.style.setProperty("--i", String(lines.length));
-      var dt  = document.createElement("dt");
-      var dd  = document.createElement("dd");
-      dt.textContent = LABELS[key];
-      dd.textContent = val;
-      row.appendChild(dt); row.appendChild(dd);
-      recap.appendChild(row);
-
-      lines.push(LABELS[key] + ": " + val);
-    });
-
-    /* A subject line that's useful in an inbox full of inquiries. */
-    var subject = "Coffee bar inquiry — " + (data.get("name") || "") +
-                  " — " + prettyDate(data.get("date"));
-    document.getElementById("f-subject").value = subject;
-    data.set("_subject", subject);
-
-    mailer.setAttribute("href",
-      "mailto:wearenevaehco@gmail.com?subject=" + encodeURIComponent(subject) +
-      "&body=" + encodeURIComponent(lines.join("\n")));
-
-    /* Formspree's trap: a bot fills it, a person doesn't — but an eager
-       password manager can too, and the old code answered that with a
-       button that did nothing at all. Nothing is ever delivered from a
-       tripped trap; the visitor still gets their details and the email
-       link, so there is always a way to reach us. */
-    var trapped = !!form.elements["_gotcha"].value;
-
-    if (!wired || trapped) { showSent("fallback"); return; }
-
-    busy = true;
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Sending…";
-
-    fetch(endpoint, {
-      method: "POST",
-      body: data,
-      headers: { "Accept": "application/json" }
-    }).then(function(res){
-      resetBtn();
-      showSent(res.ok ? "delivered" : "fallback");
-    }).catch(function(){
-      /* Offline, blocked, or the request never landed — never claim it sent. */
-      resetBtn();
-      showSent("fallback");
-    });
-  });
-
-  again.addEventListener("click", function(){
-    sent.classList.remove("is-on");
-    form.classList.remove("is-off");
-    resetBtn();
-    form.name.focus();
-  });
 })();
 </script>
+<script src="https://embed.typeform.com/next/embed.js"></script>
 </body>
 </html>
