@@ -151,13 +151,6 @@ section[id],main[id]{scroll-margin-top:5rem;}
 }
 @media (min-width:420px){.brand-txt{font-size:1.05rem;}}
 @media (min-width:560px){.brand-txt{font-size:1.2rem;}}
-/* The header CTA drops to a shorter label before it can crowd the wordmark. */
-.lbl-short{display:inline;}
-.lbl-full{display:none;}
-@media (min-width:480px){
-  .lbl-short{display:none;}
-  .lbl-full{display:inline;}
-}
 .seal{width:112px;height:112px;color:var(--night-accent);}
 .seal-txt{
   font-family:var(--f-body);font-size:14px;font-weight:600;
@@ -568,9 +561,7 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
       <a href="#area">Where We Travel</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a class="btn btn-hdr" href="#inquire">
-      <span class="lbl-full">Check Your Date</span><span class="lbl-short">Check Date</span>
-    </a>
+    <a class="btn btn-hdr" href="#inquire">Learn More</a>
   </div>
 </header>
 
@@ -593,7 +584,7 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
         Mount Dora, and everywhere within 90 miles.</strong>
       </p>
       <div class="hero-cta rise rise-4">
-        <a class="btn" href="#inquire">Check Your Date</a>
+        <a class="btn" href="#inquire">Learn More</a>
         <a class="btn btn-ghost" href="#bar">See the Bar</a>
       </div>
     </div>
