@@ -235,11 +235,10 @@ section[id],main[id]{scroll-margin-top:5rem;}
 .btn-ghost:hover{background:color-mix(in srgb,var(--night-ink) 8%,transparent);}
 /* Buttons sitting on a nocturne band run camel-on-espresso, not the
    roasted light-theme accent, which would disappear against the dark. */
-.btn-hdr,.hero .btn:not(.btn-ghost){
+.hero .btn:not(.btn-ghost){
   background:var(--night-accent);color:#1A1510;
 }
-.btn-hdr:hover,.hero .btn:not(.btn-ghost):hover{background:#DCBB9C;}
-.btn-hdr{padding:.6rem 1.05rem;}
+.hero .btn:not(.btn-ghost):hover{background:#DCBB9C;}
 
 /* ── Hero ──────────────────────────────────────────────────────────── */
 .hero{
@@ -614,8 +613,7 @@ section[id],main[id]{scroll-margin-top:5rem;}
   /* FAQ rows are the most-tapped thing on the page after the CTA. */
   .faq-item summary{padding-block:1.15rem;}
 
-  /* The two header targets both sat just under the threshold. */
-  .btn-hdr{padding-block:.72rem;}
+  /* The wordmark was the only header target under the threshold. */
   .brand{padding-block:.6rem;}
 }
 
