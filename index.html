@@ -520,6 +520,47 @@ section[id],main[id]{scroll-margin-top:5rem;}
 }
 @keyframes fadeIn{to{opacity:1;}}
 
+/* ── Phone-first adjustments ────────────────────────────────────────
+   Most visitors arrive on a phone, so these are corrections rather than
+   polish. Each one is a measured problem at 375px, not a guess.        */
+
+/* The map's 640-unit viewBox renders about 335px wide on a phone, scaling
+   every label to roughly half its stated size — 13px type lands at ~7px.
+   The map is actually narrowest just above 900px, where the two-column
+   layout starts squeezing it — labels land at ~8px there, worse than on a
+   phone. So the town labels are dropped everywhere below 1200px (the list
+   beside the map already names all sixteen towns in real text) and the two
+   labels that carry meaning are sized to survive the scale. The pins stay,
+   so the shape of the coverage still reads. */
+@media (max-width:1200px){
+  .map-label:not(.map-label-hub){display:none;}
+  .map-label-hub{font-size:26px;}
+  .map-cap{font-size:21px;letter-spacing:.1em;}
+  .map-pin circle,.map-pin-hub circle{r:6;}
+}
+
+@media (max-width:600px){
+  /* Six bands of 72px padding is a lot of dead scroll on a phone. */
+  :root{--band:3.5rem;}
+
+  /* 15px body copy is under the comfortable reading floor on a handset. */
+  .offer-cell p,.note,.faq-item .ans,.shead p{font-size:1rem;}
+
+  /* Footer links were 23px tall — half the 44px minimum for a thumb. */
+  .foot-col a{padding-block:.7rem;margin-bottom:0;}
+  .foot-col p{padding-block:.2rem;margin-bottom:0;}
+
+  /* The default tap flash is a blue box; make it the brand's. */
+  a,button,summary,.tag{-webkit-tap-highlight-color:rgba(203,169,138,.22);}
+
+  /* FAQ rows are the most-tapped thing on the page after the CTA. */
+  .faq-item summary{padding-block:1.15rem;}
+
+  /* The two header targets both sat just under the threshold. */
+  .btn-hdr{padding-block:.72rem;}
+  .brand{padding-block:.6rem;}
+}
+
 /* ── Anyone who asked for less motion gets none of it ──────────────
    Reveals resolve to their finished state, the decorative loops stop,
    and the progress hairline stays (it reports position, it isn't
