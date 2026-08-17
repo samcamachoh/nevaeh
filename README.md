@@ -10,7 +10,7 @@ no server required.
 
 Six sections: hero, what we do (event types), the bar (drinks and how it works),
 where we travel (Central Florida map with a 90-mile radius), FAQ, and the inquiry
-form.
+section, which is just the Typeform embed.
 
 ## What's here
 
