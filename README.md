@@ -49,10 +49,10 @@ the page is served over http/https with a network connection. Opening
 `index.html` straight off disk still renders the whole site, but that panel
 stays empty.
 
-**2. The phone number is a placeholder.** Search `index.html` and replace:
-
-- `wearenevaehco@gmail.com`
-- `(407) 555-0134` — currently a reserved fictional number, not a working line
+**2. There is no phone number on the site.** Contact runs through the Typeform
+and the email address in the footer. If you want a phone line listed, add it to
+the footer's "Get in touch" column and, optionally, back into the inquiry
+section.
 
 **3. There is no pricing on the site**, by design — you don't have rates set yet.
 The FAQ and the inquiry section both say every event is quoted individually. When
