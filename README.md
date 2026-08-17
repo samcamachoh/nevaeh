@@ -89,6 +89,34 @@ espresso. The page also supports the visitor's light/dark preference: all colors
 are CSS custom properties defined on `:root`, redefined under
 `prefers-color-scheme: dark` and `[data-theme="dark"]`.
 
+## Motion
+
+Everything moves through one small system, and all of it is optional.
+
+Blocks marked `data-reveal` start faded and offset and settle into place when
+they scroll in; a container marked `data-stagger` hands each child a `--i` so
+its rows arrive in sequence. The hidden start states only exist under `html.js`,
+a class added by an inline script in the head that first checks for
+`IntersectionObserver` — so with scripts off, blocked, or too old, the page
+renders fully visible rather than blank. Reveal observers fire on any
+intersection rather than a percentage, since an element taller than the viewport
+can never expose a fixed fraction of itself.
+
+Other pieces: the header carries a scroll-progress hairline and highlights the
+nav link for the section you're in; the coastline draws itself and the 90-mile
+radius opens around Orlando before the pins land; FAQ answers animate open and
+shut (`<details>` can't transition, so the answer sits in a wrapper the script
+animates, and the close is deferred until it finishes collapsing); the
+confirmation panel and its recap rows fade in.
+
+Under `prefers-reduced-motion: reduce` every reveal resolves to its finished
+state, the looping animations stop, the FAQ falls back to the browser's own
+instant toggle, and the hero canvas paints one static frame. The progress
+hairline stays — it reports position rather than decorating. Transitions stick
+to `opacity` and `transform` so they run on the compositor, the hero canvas
+stops drawing whenever it scrolls off screen, and the scroll handler paints at
+most once a frame.
+
 The Central Florida map is hand-plotted SVG. Coastline points come from real
 longitude/latitude converted with `x = (lon + 87.7) / 7.8 * 620` and
 `y = (31.1 - lat) / 6.7 * 560`; the dashed ellipse is a 90-mile radius around
