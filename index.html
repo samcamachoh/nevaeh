@@ -125,8 +125,6 @@ button,input,select,textarea{font:inherit;color:inherit;}
 
 .wrap{width:min(1160px,100% - var(--gutter)*2);margin-inline:auto;}
 .band{padding-block:var(--band);}
-.lede{font-size:var(--s-2);line-height:1.5;color:var(--ink-soft);max-width:34ch;}
-.serif-it{font-family:var(--f-display);font-style:italic;}
 
 /* ── Header ────────────────────────────────────────────────────────── */
 .hdr{
@@ -245,7 +243,7 @@ button,input,select,textarea{font:inherit;color:inherit;}
 .facts-in{
   display:grid;grid-template-columns:1fr;gap:0;
 }
-@media (min-width:720px){.facts-in{grid-template-columns:repeat(4,1fr);}}
+@media (min-width:720px){.facts-in{grid-template-columns:repeat(3,1fr);}}
 .fact{
   padding:1.5rem 0;border-bottom:1px solid var(--night-line);
 }
@@ -283,93 +281,28 @@ button,input,select,textarea{font:inherit;color:inherit;}
   font-family:var(--f-display);font-size:1.6rem;margin-bottom:.7rem;line-height:1.15;
 }
 .offer-cell p{color:var(--ink-soft);font-size:.9375rem;}
-.offer-ico{
-  width:30px;height:30px;color:var(--accent);margin-bottom:1.1rem;
-}
 
-/* ── Menu card ─────────────────────────────────────────────────────── */
-.menu{background:var(--ground-2);}
-.menu-card{
-  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  padding:clamp(1.75rem,4.5vw,3.5rem);
-}
-.menu-cols{display:grid;gap:clamp(2rem,4vw,3.25rem);}
-@media (min-width:800px){.menu-cols{grid-template-columns:1fr 1fr;}}
-.menu-group + .menu-group{margin-top:2.5rem;}
-.menu-group h3{
-  font-size:.6875rem;font-weight:600;letter-spacing:.17em;text-transform:uppercase;
-  color:var(--accent);padding-bottom:.7rem;margin-bottom:1rem;
-  border-bottom:1px solid var(--line);
-}
-.menu-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.85rem;}
-.menu-row{display:flex;align-items:baseline;gap:.5rem;}
-.menu-name{font-size:1.0625rem;flex:none;}
-.menu-dots{
-  flex:1;height:0;border-bottom:1px dotted var(--line);
-  transform:translateY(-.25em);min-width:1.5rem;
-}
-.menu-note{
-  flex:none;font-size:.8125rem;color:var(--ink-faint);text-align:right;max-width:15ch;
-  line-height:1.35;
-}
-.menu-foot{
-  margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line);
-  display:flex;flex-wrap:wrap;gap:.9rem 1.5rem;align-items:center;
-  font-size:.875rem;color:var(--ink-soft);
-}
+/* ── The bar ───────────────────────────────────────────────────────── */
+.bar{background:var(--ground-2);}
+.chip-label:first-of-type{margin-top:0;}
+
+/* ── Chips (what we pour) ──────────────────────────────────────────── */
+.chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem;}
 .tag{
-  display:inline-flex;align-items:center;gap:.4rem;
-  padding:.3rem .7rem;border:1px solid var(--line);border-radius:999px;
-  font-size:.75rem;letter-spacing:.03em;color:var(--ink-soft);background:var(--ground);
+  display:inline-flex;align-items:center;
+  padding:.42rem .9rem;border:1px solid var(--line);border-radius:999px;
+  font-size:.8125rem;letter-spacing:.01em;color:var(--ink);background:var(--surface);
 }
-
-/* ── Packages ──────────────────────────────────────────────────────── */
-.pkgs{background:var(--ground);}
-.pkg-grid{display:grid;gap:1.25rem;}
-@media (min-width:840px){.pkg-grid{grid-template-columns:repeat(3,1fr);}}
-.pkg{
-  position:relative;display:flex;flex-direction:column;
-  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-  padding:clamp(1.5rem,3vw,2rem);
+.chips + .chips{margin-top:.85rem;}
+.chip-label{
+  width:100%;font-size:.6875rem;font-weight:600;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--ink-faint);margin:1.75rem 0 -.2rem;
 }
-.pkg-flag{
-  border-color:var(--accent);
-  box-shadow:0 0 0 1px var(--accent),var(--shadow);
+.note{
+  margin-top:2.5rem;padding-top:1.6rem;border-top:1px solid var(--line);
+  color:var(--ink-soft);font-size:.9375rem;max-width:56ch;
 }
-/* Sits on the card's top border so all three headings stay on one line. */
-.pkg-tag{
-  position:absolute;top:0;left:clamp(1.5rem,3vw,2rem);transform:translateY(-50%);
-  margin:0;padding:0 .6rem;background:var(--surface);
-  font-size:.625rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--accent);
-}
-.pkg h3{font-family:var(--f-display);font-size:1.9rem;margin-bottom:.35rem;}
-.pkg-for{color:var(--ink-faint);font-size:.875rem;margin-bottom:1.5rem;}
-.pkg-price{
-  display:flex;align-items:baseline;gap:.4rem;
-  padding-bottom:1.35rem;margin-bottom:1.35rem;border-bottom:1px solid var(--line);
-}
-.pkg-price .num{
-  font-family:var(--f-display);font-size:2.4rem;line-height:1;
-  font-variant-numeric:tabular-nums;
-}
-.pkg-price .from{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);}
-.pkg ul{list-style:none;margin:0 0 1.75rem;padding:0;display:flex;flex-direction:column;gap:.7rem;}
-.pkg li{display:flex;gap:.65rem;font-size:.9375rem;color:var(--ink-soft);line-height:1.5;}
-.pkg li::before{
-  content:"";flex:none;width:6px;height:6px;margin-top:.55em;border-radius:50%;
-  background:var(--accent);opacity:.55;
-}
-.pkg .btn{margin-top:auto;width:100%;}
-.btn-outline{
-  background:transparent;color:var(--ink);border-color:var(--line);
-}
-.btn-outline:hover{background:var(--accent-wash);border-color:var(--accent);}
-.addons{
-  margin-top:2rem;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;
-}
-.addons .label{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);}
+.note strong{color:var(--ink);font-weight:600;}
 
 /* ── Service area (nocturne band) ──────────────────────────────────── */
 .area{background:var(--night);color:var(--night-ink);}
@@ -418,26 +351,6 @@ button,input,select,textarea{font:inherit;color:inherit;}
   fill:var(--night-accent);font-family:var(--f-body);font-size:12px;
   letter-spacing:.14em;text-transform:uppercase;font-weight:600;
 }
-
-/* ── Process ───────────────────────────────────────────────────────── */
-.how{background:var(--ground);}
-.steps{list-style:none;margin:0;padding:0;counter-reset:step;display:grid;gap:0;}
-.step{
-  counter-increment:step;
-  display:grid;gap:.35rem 1.5rem;align-items:start;
-  padding:1.75rem 0;border-top:1px solid var(--line);
-}
-.step:last-child{border-bottom:1px solid var(--line);}
-@media (min-width:760px){
-  .step{grid-template-columns:4.5rem 15rem 1fr;gap:0 2rem;align-items:baseline;}
-}
-.step-n{
-  font-family:var(--f-display);font-size:1.5rem;color:var(--accent);
-  font-variant-numeric:tabular-nums;line-height:1;
-}
-.step-n::before{content:counter(step,decimal-leading-zero);}
-.step h3{font-size:1.1875rem;font-weight:600;line-height:1.35;}
-.step p{color:var(--ink-soft);font-size:.9375rem;max-width:48ch;}
 
 /* ── FAQ ───────────────────────────────────────────────────────────── */
 .faq{background:var(--ground-2);}
@@ -593,10 +506,9 @@ button,input,select,textarea{font:inherit;color:inherit;}
       <span class="brand-txt">Nevaeh Coffee Company</span>
     </a>
     <nav class="nav" aria-label="Primary">
-      <a href="#menu">The Bar</a>
-      <a href="#packages">Packages</a>
+      <a href="#events">What We Do</a>
+      <a href="#bar">The Bar</a>
       <a href="#area">Where We Travel</a>
-      <a href="#how">How It Works</a>
       <a href="#faq">FAQ</a>
     </nav>
     <a class="btn btn-hdr" href="#inquire">
@@ -619,12 +531,13 @@ button,input,select,textarea{font:inherit;color:inherit;}
       <h1 class="rise rise-2">The coffee bar that <em>comes to you.</em></h1>
       <p class="hero-sub rise rise-3">
         A full espresso bar — real machine, real baristas, real milk — rolled into your
-        venue and set up under the oaks. We pop up at weddings, receptions, and events
-        across <strong>Orlando, Winter Park, Mount Dora, and everywhere within 90 miles.</strong>
+        venue and set up wherever you need it. We pop up at weddings, corporate events,
+        parties, and just about anything else across <strong>Orlando, Winter Park,
+        Mount Dora, and everywhere within 90 miles.</strong>
       </p>
       <div class="hero-cta rise rise-4">
         <a class="btn" href="#inquire">Check Your Date</a>
-        <a class="btn btn-ghost" href="#menu">See the Menu</a>
+        <a class="btn btn-ghost" href="#bar">See the Bar</a>
       </div>
     </div>
     <div class="facts">
@@ -636,203 +549,103 @@ button,input,select,textarea{font:inherit;color:inherit;}
           <dt>We travel</dt><dd>90 miles out</dd>
         </div>
         <div class="fact rise rise-5">
-          <dt>Setup footprint</dt><dd>8&nbsp;ft &times; 8&nbsp;ft</dd>
-        </div>
-        <div class="fact rise rise-5">
           <dt>Indoor or out</dt><dd>Self-powered</dd>
         </div>
       </dl>
     </div>
   </section>
 
-  <!-- ═══ What we bring ═══ -->
-  <section class="band intro">
+  <!-- ═══ What we do ═══ -->
+  <section class="band intro" id="events">
     <div class="wrap">
       <div class="shead">
-        <h2>Not a coffee urn on a folding table. <em>An actual bar.</em></h2>
+        <h2>Weddings, events, and <em>everything in between.</em></h2>
         <p>
-          Everything arrives on our cart: commercial espresso machine, grinder, cold brew
-          taps, cups, ice, water, and a barista who has done this at a hundred receptions.
-          You get your aisle back and your guests get a flat white at 10&nbsp;p.m.
+          If people are going to be standing around wanting good coffee, we'll bring
+          the bar to them. Indoors, outdoors, morning or midnight.
         </p>
       </div>
 
       <div class="offer">
         <div class="offer-cell">
-          <svg class="offer-ico" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-            <rect x="4" y="9" width="24" height="15" rx="2.5" stroke="currentColor" stroke-width="1.6"/>
-            <path d="M11 9V6.5h10V9" stroke="currentColor" stroke-width="1.6"/>
-            <path d="M13 16.5h6M16 16.5V21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-          </svg>
-          <h3>The machine</h3>
-          <p>
-            A dual-boiler commercial espresso machine and a conical burr grinder — the same
-            setup as a brick-and-mortar shop, dialed in on site the morning of your event.
-          </p>
+          <h3>Weddings</h3>
+          <p>Coffee after the ceremony, through cocktail hour, or a late-night bar once the dancing starts.</p>
         </div>
         <div class="offer-cell">
-          <svg class="offer-ico" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-            <path d="M16 5c3.5 3.4 5.5 6.3 5.5 9.1a5.5 5.5 0 1 1-11 0C10.5 11.3 12.5 8.4 16 5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-            <path d="M9 22.5c2.3 1.6 4.6 2.4 7 2.4s4.7-.8 7-2.4M9 26.4c2.3 1.6 4.6 2.4 7 2.4s4.7-.8 7-2.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-          </svg>
-          <h3>The milk, the ice, the details</h3>
-          <p>
-            Whole, oat, and almond as standard. Iced everything, because this is Florida in
-            June. Compostable cups, or your own custom-printed ones if you'd rather.
-          </p>
+          <h3>Corporate &amp; conferences</h3>
+          <p>Morning service, all-day breaks, client meetings, and team events.</p>
         </div>
         <div class="offer-cell">
-          <svg class="offer-ico" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-            <circle cx="12" cy="10" r="4" stroke="currentColor" stroke-width="1.6"/>
-            <path d="M4.5 26c0-4.1 3.4-7 7.5-7s7.5 2.9 7.5 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-            <path d="M21 12.5h6.5M21 17h6.5M21 21.5h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-          </svg>
-          <h3>The people</h3>
-          <p>
-            Trained baristas in black, on time, out of your photos. We build a drink menu
-            with you beforehand so nobody is deciding anything at the bar.
-          </p>
+          <h3>Brand activations</h3>
+          <p>Grand openings, product launches, pop-ups, markets, and film sets.</p>
+        </div>
+        <div class="offer-cell">
+          <h3>Showers &amp; parties</h3>
+          <p>Engagement parties, bridal and baby showers, birthdays, and anniversaries.</p>
+        </div>
+        <div class="offer-cell">
+          <h3>Graduations &amp; milestones</h3>
+          <p>Backyard gatherings, family celebrations, and everything worth marking.</p>
+        </div>
+        <div class="offer-cell">
+          <h3>Whatever you're planning</h3>
+          <p>Church events, fundraisers, block parties, staff appreciation days — just ask.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══ Menu ═══ -->
-  <section class="band menu" id="menu">
+  <!-- ═══ The bar ═══ -->
+  <section class="band bar" id="bar">
     <div class="wrap">
       <div class="shead">
-        <h2>A menu your guests will <em>actually finish.</em></h2>
+        <h2>A real espresso bar, <em>rolled in and set up.</em></h2>
         <p>
-          We print a custom board for your event. This is the working list — pick your
-          favorites, cut what you don't want, and we'll design one or two signatures with you.
+          Not an urn on a folding table. A commercial espresso machine, a proper
+          grinder, cold brew on tap, and trained baristas — arriving early, dialed in
+          before your first guest, and packed out without a trace.
         </p>
       </div>
 
-      <div class="menu-card">
-        <div class="menu-cols">
-          <div>
-            <div class="menu-group">
-              <h3>Espresso</h3>
-              <ul class="menu-list">
-                <li class="menu-row"><span class="menu-name">Espresso &amp; Doppio</span><span class="menu-dots"></span><span class="menu-note">House or decaf</span></li>
-                <li class="menu-row"><span class="menu-name">Cortado</span><span class="menu-dots"></span><span class="menu-note">4 oz</span></li>
-                <li class="menu-row"><span class="menu-name">Cappuccino</span><span class="menu-dots"></span><span class="menu-note">6 oz</span></li>
-                <li class="menu-row"><span class="menu-name">Latte &amp; Flat White</span><span class="menu-dots"></span><span class="menu-note">Hot or iced</span></li>
-                <li class="menu-row"><span class="menu-name">Americano</span><span class="menu-dots"></span><span class="menu-note">Hot or iced</span></li>
-                <li class="menu-row"><span class="menu-name">Mocha</span><span class="menu-dots"></span><span class="menu-note">Dark or white</span></li>
-              </ul>
-            </div>
-            <div class="menu-group">
-              <h3>Cold</h3>
-              <ul class="menu-list">
-                <li class="menu-row"><span class="menu-name">Cold Brew</span><span class="menu-dots"></span><span class="menu-note">On tap</span></li>
-                <li class="menu-row"><span class="menu-name">Nitro Cold Brew</span><span class="menu-dots"></span><span class="menu-note">Add-on</span></li>
-                <li class="menu-row"><span class="menu-name">Espresso Tonic</span><span class="menu-dots"></span><span class="menu-note">Cocktail hour</span></li>
-                <li class="menu-row"><span class="menu-name">Iced Shaken Latte</span><span class="menu-dots"></span><span class="menu-note">Any syrup</span></li>
-              </ul>
-            </div>
-          </div>
-
-          <div>
-            <div class="menu-group">
-              <h3>Signatures</h3>
-              <ul class="menu-list">
-                <li class="menu-row"><span class="menu-name">Orange Blossom Honey Latte</span><span class="menu-dots"></span><span class="menu-note">Florida honey</span></li>
-                <li class="menu-row"><span class="menu-name">Toasted Coconut Cold Brew</span><span class="menu-dots"></span><span class="menu-note">House favorite</span></li>
-                <li class="menu-row"><span class="menu-name">Lavender Cortado</span><span class="menu-dots"></span><span class="menu-note">Spring &amp; summer</span></li>
-                <li class="menu-row"><span class="menu-name">Brown Butter Cinnamon Latte</span><span class="menu-dots"></span><span class="menu-note">Fall &amp; winter</span></li>
-                <li class="menu-row"><span class="menu-name">Your Signature Drink</span><span class="menu-dots"></span><span class="menu-note">Designed with you, named however you like</span></li>
-              </ul>
-            </div>
-            <div class="menu-group">
-              <h3>No coffee, no problem</h3>
-              <ul class="menu-list">
-                <li class="menu-row"><span class="menu-name">Ceremonial Matcha Latte</span><span class="menu-dots"></span><span class="menu-note">Hot or iced</span></li>
-                <li class="menu-row"><span class="menu-name">Masala Chai Latte</span><span class="menu-dots"></span><span class="menu-note">Hot or iced</span></li>
-                <li class="menu-row"><span class="menu-name">Hot Chocolate</span><span class="menu-dots"></span><span class="menu-note">The kids' table</span></li>
-                <li class="menu-row"><span class="menu-name">Loose-Leaf Tea</span><span class="menu-dots"></span><span class="menu-note">Three varieties</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="menu-foot">
-          <span class="tag">Whole &middot; Oat &middot; Almond</span>
-          <span class="tag">Decaf always available</span>
-          <span class="tag">Compostable cups</span>
-          <span class="tag">Custom printed cups &amp; sleeves</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ Packages ═══ -->
-  <section class="band pkgs" id="packages">
-    <div class="wrap">
-      <div class="shead">
-        <h2>Priced by guest count and <em>hours on the clock.</em></h2>
-        <p>
-          Every package includes travel within 60 miles of Orlando, setup and breakdown,
-          all cups and supplies, and a menu design call. Unlimited drinks — we don't count.
-        </p>
+      <p class="chip-label">Hot</p>
+      <div class="chips">
+        <span class="tag">Espresso</span>
+        <span class="tag">Cortado</span>
+        <span class="tag">Cappuccino</span>
+        <span class="tag">Latte</span>
+        <span class="tag">Flat White</span>
+        <span class="tag">Americano</span>
+        <span class="tag">Mocha</span>
+        <span class="tag">Chai</span>
+        <span class="tag">Matcha</span>
+        <span class="tag">Hot Chocolate</span>
       </div>
 
-      <div class="pkg-grid">
-        <article class="pkg">
-          <h3>The Ceremony</h3>
-          <p class="pkg-for">Intimate weddings, showers, brunches</p>
-          <p class="pkg-price"><span class="from">From</span><span class="num">$650</span></p>
-          <ul>
-            <li>Up to 75 guests</li>
-            <li>2 hours of service</li>
-            <li>1 barista</li>
-            <li>Full espresso &amp; cold brew menu</li>
-            <li>Printed menu board</li>
-          </ul>
-          <a class="btn btn-outline" href="#inquire">Ask about this</a>
-        </article>
-
-        <article class="pkg pkg-flag">
-          <p class="pkg-tag">Most booked</p>
-          <h3>The Reception</h3>
-          <p class="pkg-for">The standard wedding package</p>
-          <p class="pkg-price"><span class="from">From</span><span class="num">$1,150</span></p>
-          <ul>
-            <li>Up to 150 guests</li>
-            <li>3 hours of service</li>
-            <li>2 baristas</li>
-            <li>Full menu plus one signature drink</li>
-            <li>Printed menu board &amp; custom sleeves</li>
-            <li>Cocktail-hour iced bar included</li>
-          </ul>
-          <a class="btn" href="#inquire">Check your date</a>
-        </article>
-
-        <article class="pkg">
-          <h3>The Long Night</h3>
-          <p class="pkg-for">Large weddings, corporate &amp; brand events</p>
-          <p class="pkg-price"><span class="from">From</span><span class="num">$1,800</span></p>
-          <ul>
-            <li>Up to 300 guests</li>
-            <li>4 hours, split however you like</li>
-            <li>3 baristas</li>
-            <li>Two signature drinks</li>
-            <li>Late-night service window</li>
-            <li>Nitro cold brew on tap</li>
-          </ul>
-          <a class="btn btn-outline" href="#inquire">Ask about this</a>
-        </article>
+      <p class="chip-label">Iced &amp; cold</p>
+      <div class="chips">
+        <span class="tag">Cold Brew</span>
+        <span class="tag">Iced Latte</span>
+        <span class="tag">Iced Shaken Espresso</span>
+        <span class="tag">Espresso Tonic</span>
+        <span class="tag">Iced Matcha</span>
+        <span class="tag">Iced Chai</span>
       </div>
 
-      <div class="addons">
-        <span class="label">Add on</span>
-        <span class="tag">Extra hour</span>
-        <span class="tag">Nitro tap</span>
-        <span class="tag">Custom printed cups</span>
-        <span class="tag">Second bar station</span>
-        <span class="tag">Pastry &amp; donut wall</span>
-        <span class="tag">Travel beyond 60 miles</span>
+      <p class="chip-label">Good to know</p>
+      <div class="chips">
+        <span class="tag">Whole &middot; Oat &middot; Almond</span>
+        <span class="tag">Decaf always available</span>
+        <span class="tag">Compostable cups</span>
+        <span class="tag">Custom signature drink</span>
+        <span class="tag">Printed menu board</span>
       </div>
+
+      <p class="note">
+        We build the menu with you beforehand, so nobody is standing at the bar
+        deciding. <strong>Every event is quoted individually</strong> — it depends on
+        your guest count, how long you'd like us pouring, and how far we're driving.
+        Send us your date and we'll come back with a number.
+      </p>
     </div>
   </section>
 
@@ -916,43 +729,6 @@ button,input,select,textarea{font:inherit;color:inherit;}
     </div>
   </section>
 
-  <!-- ═══ How it works ═══ -->
-  <section class="band how" id="how">
-    <div class="wrap">
-      <div class="shead">
-        <h2>Five steps, and <em>four of them are ours.</em></h2>
-      </div>
-
-      <ol class="steps">
-        <li class="step">
-          <span class="step-n" aria-hidden="true"></span>
-          <h3>You send us the date</h3>
-          <p>Fill out the form below with your date, venue, and rough guest count. We reply within 24 hours with availability and a quote.</p>
-        </li>
-        <li class="step">
-          <span class="step-n" aria-hidden="true"></span>
-          <h3>We design the menu together</h3>
-          <p>A 20-minute call to pick drinks, choose milks, and invent your signature. We handle the printed board and any custom cup artwork.</p>
-        </li>
-        <li class="step">
-          <span class="step-n" aria-hidden="true"></span>
-          <h3>We coordinate with your venue</h3>
-          <p>We contact your planner or venue manager directly about load-in, power, and placement — so it's one less thread in your inbox.</p>
-        </li>
-        <li class="step">
-          <span class="step-n" aria-hidden="true"></span>
-          <h3>We arrive 90 minutes early</h3>
-          <p>Cart in, machine warm, espresso dialed, bar styled, and out of the way before your first guest walks in.</p>
-        </li>
-        <li class="step">
-          <span class="step-n" aria-hidden="true"></span>
-          <h3>We pour, then we vanish</h3>
-          <p>Service runs your window. Breakdown takes 30 minutes and leaves the space exactly as we found it.</p>
-        </li>
-      </ol>
-    </div>
-  </section>
-
   <!-- ═══ FAQ ═══ -->
   <section class="band faq" id="faq">
     <div class="wrap">
@@ -962,8 +738,12 @@ button,input,select,textarea{font:inherit;color:inherit;}
 
       <div class="faq-list">
         <details class="faq-item">
+          <summary>What does it cost?</summary>
+          <p class="ans">Every event is quoted individually — the price depends on your guest count, how many hours you'd like the bar open, and how far we're travelling. Send us your date through the form below and we'll come back within 24 hours with a number. No obligation.</p>
+        </details>
+        <details class="faq-item">
           <summary>Do you need power from the venue?</summary>
-          <p class="ans">Ideally, yes — one dedicated 20-amp circuit within 50 feet of the bar. If the venue can't provide it, we bring a quiet inverter generator at no extra charge. It's the same one we use at outdoor ceremonies, and it will not compete with your officiant.</p>
+          <p class="ans">Ideally, yes — one dedicated 20-amp circuit within 50 feet of the bar. If the venue can't provide it, we bring a quiet inverter generator at no extra charge. It will not compete with your officiant.</p>
         </details>
         <details class="faq-item">
           <summary>How much space does the bar take up?</summary>
@@ -974,19 +754,11 @@ button,input,select,textarea{font:inherit;color:inherit;}
           <p class="ans">We need shade or coverage for any outdoor setup between May and September — a tent, a porch, or a tree line works. If a storm rolls through, we move to your indoor backup location without changing your bill. We plan for both from the start.</p>
         </details>
         <details class="faq-item">
-          <summary>When should we book?</summary>
-          <p class="ans">Six to twelve months ahead for a Saturday in peak season, which in Central Florida means October through April. Off-season and weekday dates often open up much closer in — always worth asking.</p>
+          <summary>How far ahead should we book?</summary>
+          <p class="ans">Six to twelve months for a Saturday in peak season, which in Central Florida means October through April. Off-season and weekday dates often open up much closer in — always worth asking.</p>
         </details>
         <details class="faq-item">
-          <summary>What does it take to hold our date?</summary>
-          <p class="ans">A signed agreement and a 25% retainer. The balance is due two weeks before the event. Guest counts can be adjusted up to 14 days out.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Do you do more than weddings?</summary>
-          <p class="ans">Regularly. Corporate mornings, conference breaks, grand openings, brand activations, film sets, graduation parties, and baby showers. Same bar, same baristas — we just re-cut the menu for the crowd.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Are you insured and licensed?</summary>
+          <summary>Are you insured?</summary>
           <p class="ans">Yes — we carry general liability and can name your venue as additionally insured. Send us your venue's requirements and we'll get the certificate over to them directly.</p>
         </details>
       </div>
@@ -1070,20 +842,11 @@ button,input,select,textarea{font:inherit;color:inherit;}
                 <input id="f-guests" name="guests" type="number" min="1" max="2000" inputmode="numeric" placeholder="140">
               </div>
 
-              <div class="field">
-                <label for="f-package">Package you're eyeing</label>
-                <select id="f-package" name="package">
-                  <option value="">Not sure yet — help us pick</option>
-                  <option>The Ceremony — up to 75 guests</option>
-                  <option>The Reception — up to 150 guests</option>
-                  <option>The Long Night — up to 300 guests</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="f-hours">Hours of service</label>
+              <div class="field col-2">
+                <label for="f-hours">How long would you like the bar open?</label>
                 <select id="f-hours" name="hours">
                   <option value="">Not sure yet</option>
-                  <option>2 hours</option>
+                  <option>1&ndash;2 hours</option>
                   <option>3 hours</option>
                   <option>4 hours</option>
                   <option>More than 4 hours</option>
@@ -1095,18 +858,6 @@ button,input,select,textarea{font:inherit;color:inherit;}
                 <textarea id="f-notes" name="notes" placeholder="Outdoor reception under an oak, late-night service after the first dance, one of us is dairy-free…"></textarea>
               </div>
 
-              <div class="field col-2">
-                <label for="f-source">How did you find us?</label>
-                <select id="f-source" name="source">
-                  <option value="">Optional</option>
-                  <option>Our venue recommended you</option>
-                  <option>Our planner recommended you</option>
-                  <option>Instagram</option>
-                  <option>Google search</option>
-                  <option>A friend who tasted it at a wedding</option>
-                  <option>Somewhere else</option>
-                </select>
-              </div>
             </div>
 
             <p class="hp" aria-hidden="true">
@@ -1161,10 +912,9 @@ button,input,select,textarea{font:inherit;color:inherit;}
     <div class="foot-cols">
       <div class="foot-col">
         <h4>Explore</h4>
-        <a href="#menu">The Bar</a>
-        <a href="#packages">Packages</a>
+        <a href="#events">What We Do</a>
+        <a href="#bar">The Bar</a>
         <a href="#area">Where We Travel</a>
-        <a href="#how">How It Works</a>
         <a href="#faq">FAQ</a>
       </div>
       <div class="foot-col">
@@ -1284,7 +1034,7 @@ button,input,select,textarea{font:inherit;color:inherit;}
   var LABELS = {
     name:"Name", partner:"Partner", email:"Email", phone:"Phone",
     eventType:"Event", date:"Date", venue:"Venue", guests:"Guests",
-    "package":"Package", hours:"Hours", notes:"Notes", source:"Found us via"
+    hours:"Hours", notes:"Notes"
   };
 
   var RULES = [

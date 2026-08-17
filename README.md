@@ -6,6 +6,12 @@ and events across Central Florida.
 **Live preview:** open `index.html` in any browser. No build step, no dependencies,
 no server required.
 
+## Structure
+
+Six sections: hero, what we do (event types), the bar (drinks and how it works),
+where we travel (Central Florida map with a 90-mile radius), FAQ, and the inquiry
+form.
+
 ## What's here
 
 | File | What it is |
@@ -48,9 +54,9 @@ of the file.
 - `hello@nevaehcoffee.com`
 - `(407) 555-0134` — currently a reserved fictional number, not a working line
 
-**3. Package pricing is illustrative.** The three tiers ($650 / $1,150 / $1,800),
-their guest counts, hours, and inclusions were written to demonstrate the layout.
-Replace them with real numbers in the `<section class="band pkgs">` block.
+**3. There is no pricing on the site**, by design — you don't have rates set yet.
+The FAQ and the inquiry section both say every event is quoted individually. When
+you're ready to publish rates, that's the place to change the wording.
 
 ## Design notes
 
