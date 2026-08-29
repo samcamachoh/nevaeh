@@ -161,6 +161,46 @@ For a local service business, the page is maybe a third of the work. The rest:
    this site, for booking and for search alike — image results and the Business
    Profile both reward it.
 
+## Mobile
+
+Most visitors arrive on a phone, so the phone layout is the one that gets
+measured. Three things differ from the desktop page rather than just reflowing
+into it.
+
+**The service-area map is reframed, not shrunk.** The full-state viewBox scales
+the town labels to roughly half their stated size — 13px type lands at about
+7px — so below 1200px they used to be hidden, leaving an unlabelled blob of
+dots. Below that width the script now swaps the viewBox to `354 91 294 270`,
+cropping to the service area itself: same footprint, all nine places named, and
+the 90-mile circle filling the frame. The whole state is context a phone has no
+room for; the circle is the part that answers "do you come to my venue?".
+Without JavaScript the full map renders with labels hidden, as before.
+
+**A booking bar rides along the bottom.** The page runs about eight screens on a
+handset and the only two ways to book sit at either end of them. The bar appears
+once the hero button scrolls off and drops away again as soon as the inquiry
+form comes into view, so it never covers the thing it points at. It also stands
+down while the nav panel is open, and it does not appear on landscape phones
+(`min-height: 480px`), where it would eat a fifth of the viewport. It is fixed
+only under `.js`, since the script is what moves it.
+
+**The event grid changes shape twice.** Three columns above 760px, two below,
+and one below 360px — where two columns leave about 110px for text, which is
+three words to a line with breaks mid-word. Single column costs 78px of height
+there and is worth it; above 360px the columns hold enough that two-up is the
+better trade, since narrow columns wrap more and the saving is real (measured at
+145–210px).
+
+Smaller corrections, each a measured problem rather than a guess: horizontal
+reveals become vertical below 900px (a 30px offset is wider than the 20px gutter
+a phone has to spare, and the page panned sideways until they settled); the
+uppercase micro-labels come up from 10px; the facts strip tightens; and the hero
+eyebrow's separators move from trailing to leading so a wrap does not leave one
+dangling at the end of the line.
+
+Tap targets were already at or above 44px and stayed there. The layout is clean
+of horizontal overflow from 320px up.
+
 ## Design notes
 
 Type is one family in two roles: Archivo, a variable grotesk covering 400–700.
@@ -223,7 +263,8 @@ most once a frame.
 The Central Florida map is hand-plotted SVG. Coastline points come from real
 longitude/latitude converted with `x = (lon + 87.7) / 7.8 * 620` and
 `y = (31.1 - lat) / 6.7 * 560`; the dashed ellipse is a 90-mile radius around
-Orlando.
+Orlando. Below 1200px the script reframes it onto the service area — see
+**Mobile** above.
 
 ## Not built yet
 

@@ -310,10 +310,12 @@ section[id],main[id]{scroll-margin-top:5rem;}
 .btn-ghost:hover{background:color-mix(in srgb,var(--night-ink) 8%,transparent);}
 /* Buttons sitting on a nocturne band run camel-on-espresso, not the
    roasted light-theme accent, which would disappear against the dark. */
-.hero .btn:not(.btn-ghost){
+.hero .btn:not(.btn-ghost),
+.bookbar .btn{
   background:var(--night-accent);color:#1A1510;
 }
-.hero .btn:not(.btn-ghost):hover{background:#DCBB9C;}
+.hero .btn:not(.btn-ghost):hover,
+.bookbar .btn:hover{background:#DCBB9C;}
 
 /* ── Hero ──────────────────────────────────────────────────────────── */
 .hero{
@@ -448,7 +450,7 @@ section[id],main[id]{scroll-margin-top:5rem;}
   margin-bottom:.7rem;line-height:1.2;
 }
 
-@media (max-width:759px){
+@media (min-width:360px) and (max-width:759px){
   /* Two-up halves the scroll through six cells; the padding and type come
      down with it so the narrower column still breathes. */
   .offer{grid-template-columns:1fr 1fr;}
@@ -457,6 +459,18 @@ section[id],main[id]{scroll-margin-top:5rem;}
   .offer-cell p{font-size:.9375rem;line-height:1.5;}
 }
 .offer-cell p{color:var(--ink-soft);font-size:.9375rem;}
+
+/* Placed after the base rule above, which would otherwise win on source
+   order at equal specificity. */
+@media (max-width:359px){
+  /* Two-up leaves about 110px for text here — three words to a line, with
+     breaks mid-word. One column costs 78px of height and is worth it. Above
+     this width the columns hold enough to stay the better trade. */
+  .offer{grid-template-columns:1fr;}
+  .offer-cell{padding:1.3rem 1.15rem;}
+  .offer-cell h3{font-size:1.15rem;line-height:1.25;}
+  .offer-cell p{font-size:1rem;line-height:1.55;}
+}
 
 /* ── The bar ───────────────────────────────────────────────────────── */
 .bar{background:var(--ground-2);}
@@ -617,6 +631,13 @@ section[id],main[id]{scroll-margin-top:5rem;}
 }
 .js [data-reveal="right"]{transform:translateX(30px);}
 .js [data-reveal="left"]{transform:translateX(-30px);}
+/* The 30px offset is wider than the 20px gutter a phone has to spare, so
+   until these settle they push the page 10px past the viewport and it pans
+   sideways. Narrow screens get the vertical reveal instead — there is no
+   room for a sideways one to read as motion anyway. */
+@media (max-width:899px){
+  .js [data-reveal="right"],.js [data-reveal="left"]{transform:translateY(20px);}
+}
 .js [data-reveal="fade"]{transform:none;}
 .js [data-reveal="pop"]{
   transform:scale(.5);transform-box:fill-box;transform-origin:center;
@@ -672,17 +693,55 @@ section[id],main[id]{scroll-margin-top:5rem;}
 
 /* The map's 640-unit viewBox renders about 335px wide on a phone, scaling
    every label to roughly half its stated size — 13px type lands at ~7px.
-   The map is actually narrowest just above 900px, where the two-column
-   layout starts squeezing it — labels land at ~8px there, worse than on a
-   phone. So the town labels are dropped everywhere below 1200px (the list
-   beside the map already names all sixteen towns in real text) and the two
-   labels that carry meaning are sized to survive the scale. The pins stay,
-   so the shape of the coverage still reads. */
+   It is narrowest just above 900px, where the two-column layout starts
+   squeezing it: labels land at ~8px there, worse than on a phone.
+
+   Hiding them left an unlabelled blob of dots carrying almost nothing. So
+   below 1200px the script reframes the viewBox onto the service area — the
+   whole state is context a phone has no room for, and the circle is the
+   part that answers "do you come to my venue?". Same footprint, every town
+   named. The rules below are the no-JS fallback, and hold until the script
+   swaps the viewBox in. */
 @media (max-width:1200px){
   .map-label:not(.map-label-hub){display:none;}
   .map-label-hub{font-size:26px;}
   .map-cap{font-size:21px;letter-spacing:.1em;}
   .map-pin circle,.map-pin-hub circle{r:6;}
+
+  /* Reframed: the crop clips the coastline, so the overflow has to go. The
+     hairline makes the cut read as a map inset rather than an accident. */
+  .map.is-zoomed{
+    overflow:hidden;border-radius:var(--radius);
+    border:1px solid var(--night-line);
+  }
+  .map.is-zoomed .map-label{display:block;font-size:12px;}
+  .map.is-zoomed .map-label-hub{font-size:15px;}
+  .map.is-zoomed .map-cap{font-size:11px;letter-spacing:.14em;}
+  .map.is-zoomed .map-pin circle{r:3.5;}
+  .map.is-zoomed .map-pin-hub circle{r:10;}
+  .map.is-zoomed .map-pin-hub circle + circle{r:4.5;}
+}
+
+/* ── Phone booking bar ─────────────────────────────────────────────
+   Eight screens of scroll with the only two ways to book at either end
+   of them. The bar rides in once the hero button is gone and drops away
+   again from the form down, so it never covers the thing it points at.
+   Fixed positioning only under .js, since the script is what moves it. */
+.bookbar{display:none;}
+@media (max-width:899px) and (min-height:480px){
+  .js .bookbar{
+    display:block;position:fixed;left:0;right:0;bottom:0;z-index:60;
+    padding:.7rem var(--gutter);
+    padding-bottom:calc(.7rem + env(safe-area-inset-bottom,0px));
+    background:color-mix(in srgb,var(--night) 94%,transparent);
+    -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    border-top:1px solid var(--night-line);
+    transform:translateY(115%);
+    transition:transform .34s var(--ease);
+    pointer-events:none;
+  }
+  .js .bookbar.is-up{transform:none;pointer-events:auto;}
+  .bookbar .btn{display:flex;width:100%;padding-block:.9rem;}
 }
 
 @media (max-width:600px){
@@ -706,6 +765,24 @@ section[id],main[id]{scroll-margin-top:5rem;}
 
   /* The wordmark was the only header target under the threshold. */
   .brand{padding-block:.6rem;}
+
+  /* The uppercase micro-labels were set at 10px. That reads on a desktop
+     at arm's length; on a handset it is the smallest thing on the page. */
+  .fact dt,.foot-col h4{font-size:.6875rem;}
+
+  /* Three stacked facts ran 330px before the first section. Tightening the
+     rows gives that back without crowding them. */
+  .fact{padding-block:1.15rem;}
+
+  /* Wrapped, a trailing separator is left dangling at the end of the line;
+     leading ones sit at the start of the next line instead, where they
+     read as a marker rather than an orphan. */
+  .hero-eyebrow span:not(:last-child)::after{display:none;}
+  .hero-eyebrow span:not(:first-child)::before{
+    content:"";display:inline-block;vertical-align:middle;
+    width:4px;height:4px;margin-right:.75rem;border-radius:50%;
+    background:currentColor;opacity:.6;
+  }
 }
 
 /* ── Anyone who asked for less motion gets none of it ──────────────
@@ -1447,7 +1524,7 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
               <circle cx="417" cy="263" r="4.5" /><text class="map-label" x="407" y="279" text-anchor="end">Tampa</text>
               <circle cx="563" cy="252" r="4.5" /><text class="map-label" x="573" y="258">Melbourne</text>
               <circle cx="457" cy="256" r="4.5" /><text class="map-label" x="447" y="250" text-anchor="end">Lakeland</text>
-              <circle cx="511" cy="192" r="4.5" /><text class="map-label" x="521" y="187">Sanford</text>
+              <circle cx="511" cy="192" r="4.5" /><text class="map-label" x="524" y="178">Sanford</text>
               <circle cx="471" cy="213" r="4.5" /><text class="map-label" x="461" y="208" text-anchor="end">Clermont</text>
               <circle cx="500" cy="235" r="4.5" /><text class="map-label" x="500" y="252" text-anchor="middle">Kissimmee</text>
             </g>
@@ -1574,6 +1651,12 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
   </div>
 </footer>
 
+<!-- Phone booking bar. Hidden unless the script is running, since the
+     script is what decides when it belongs on screen. -->
+<div class="bookbar" id="bookbar">
+  <a class="btn" href="#inquire">Check your date</a>
+</div>
+
 <script>
 (function(){
   "use strict";
@@ -1591,6 +1674,7 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
     primaryNav.classList.toggle("is-open", open);
     navToggle.setAttribute("aria-expanded", open ? "true" : "false");
     navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    onScroll();          // the booking bar stands down while the panel is open
   }
   function navOpen(){ return primaryNav.classList.contains("is-open"); }
 
@@ -1619,12 +1703,27 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
   var hdr = document.getElementById("hdr");
   var scrollQueued = false;
 
+  /* The booking bar rides along on the same paint. It shows once the hero
+     button has scrolled off and hides again as soon as the form it points
+     at comes into view — and while the nav panel is open, so the two never
+     stack up on a short screen. */
+  var bookbar = document.getElementById("bookbar");
+  var heroCta = document.querySelector(".hero-cta");
+  var inquire = document.getElementById("inquire");
+
   function paintScroll(){
     scrollQueued = false;
     var doc = document.documentElement;
     var max = doc.scrollHeight - doc.clientHeight;
     hdr.classList.toggle("is-stuck", window.scrollY > 12);
     hdr.style.setProperty("--progress", max > 0 ? (window.scrollY / max).toFixed(4) : "0");
+
+    if (bookbar && heroCta && inquire) {
+      bookbar.classList.toggle("is-up",
+        heroCta.getBoundingClientRect().bottom < 0 &&
+        inquire.getBoundingClientRect().top > window.innerHeight &&
+        !navOpen());
+    }
   }
   function onScroll(){
     if (scrollQueued) return;              // one paint per frame, not one per event
@@ -1664,6 +1763,22 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
     document.querySelectorAll("[data-reveal],[data-live]").forEach(function(el){
       revealIO.observe(el);
     });
+
+    /* Below 1200px the full-state viewBox shrinks the town labels out of
+       legibility, so the map is reframed onto the service area instead of
+       being stripped of them. Same footprint, sixteen towns named. */
+    var mapEl = document.querySelector(".map");
+    if (mapEl && window.matchMedia) {
+      var wide = window.matchMedia("(min-width:1201px)");
+      var frameMap = function(){
+        var zoom = !wide.matches;
+        mapEl.classList.toggle("is-zoomed", zoom);
+        mapEl.setAttribute("viewBox", zoom ? "354 91 294 270" : "0 0 640 570");
+      };
+      frameMap();
+      if (wide.addEventListener) wide.addEventListener("change", frameMap);
+      else if (wide.addListener) wide.addListener(frameMap);
+    }
 
     /* The coastline needs its own length before it can draw itself. */
     var coast = document.querySelector(".map-coast");
