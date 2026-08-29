@@ -1,0 +1,7 @@
+# Nevaeh Coffee Company — https://nevaeh-coffee.com
+# One page, nothing private. Everything is open to crawlers.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://nevaeh-coffee.com/sitemap.xml

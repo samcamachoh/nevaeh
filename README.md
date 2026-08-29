@@ -10,7 +10,7 @@ no server required.
 
 Six sections: hero, what we do (event types), the bar (drinks and how it works),
 where we travel (Central Florida map with a 90-mile radius), FAQ, and the inquiry
-section, which is just the Typeform embed.
+section, which is a short section head over the Typeform embed.
 
 ## What's here
 
@@ -18,6 +18,11 @@ section, which is just the Typeform embed.
 | --- | --- |
 | `index.html` | The entire site — markup, styles, and scripts in one file |
 | `Nevaeh (1).png` | The original logo artwork |
+| `og-image.png` | 1200×630 social share card, generated from the logo and the embedded typeface |
+| `apple-touch-icon.png` | 180×180 home-screen icon |
+| `robots.txt` | Crawler rules; points at the sitemap |
+| `sitemap.xml` | One URL, since there is one page |
+| `CNAME` | Tells GitHub Pages to serve the site at `nevaeh-coffee.com` |
 
 `index.html` is fully self-contained. The typeface (Archivo) is embedded as a
 base64 `@font-face` source, and the logo is an inline SVG path traced from the
@@ -28,7 +33,11 @@ from a CDN.
 
 Any static host works, since the whole site is one file:
 
-- **GitHub Pages** — Settings → Pages → deploy from `main`, root folder
+- **GitHub Pages** — Settings → Pages → deploy from `main`, root folder. The
+  `CNAME` file already claims `nevaeh-coffee.com`, so point that domain's DNS at
+  GitHub (an `ALIAS`/`ANAME` on the apex to `samcamachoh.github.io`, or four `A`
+  records to GitHub's Pages IPs) and tick **Enforce HTTPS** once the certificate
+  issues.
 - **Netlify / Vercel** — drag the folder in, or connect this repo; no build command
 - **Any web host** — upload `index.html` as the site root
 
@@ -57,6 +66,100 @@ section.
 **3. There is no pricing on the site**, by design — you don't have rates set yet.
 The FAQ and the inquiry section both say every event is quoted individually. When
 you're ready to publish rates, that's the place to change the wording.
+
+## SEO
+
+The site is one page targeting one job: people in Central Florida searching for a
+mobile coffee or espresso bar for a wedding or event.
+
+**Canonical host is `https://nevaeh-coffee.com`.** It is hard-coded in the
+`<head>`, in `robots.txt`, in `sitemap.xml`, and throughout the JSON-LD. If the
+domain ever changes, find-and-replace that string across those four files and
+nothing else needs touching.
+
+### What's in the page
+
+- **Title and description** lead with the search terms rather than the brand —
+  "Mobile Espresso Bar for Weddings & Events | Orlando, FL" (55 characters) over a
+  147-character description. Both sit under the length where Google truncates.
+- **Canonical link and a `robots` directive** that opts into large image previews
+  and full-length snippets.
+- **Open Graph and Twitter cards** with a real 1200×630 image, so a link pasted
+  into a text, a Facebook group, or a planner's email renders as a card instead of
+  a bare URL. Wedding referrals travel by link, so this is worth more here than it
+  looks.
+- **`geo.*` meta and coordinates** for the Orlando home base.
+- **JSON-LD** in a single `@graph`, described below.
+- **A section head on the inquiry band.** It used to be the bare Typeform, which
+  meant the page's main conversion point was an iframe — no heading, no indexable
+  copy, and nothing at all for a visitor without JavaScript. It now has an `h2`,
+  a paragraph restating how quoting works, and a `<noscript>` fallback pointing at
+  the email address.
+- **`preconnect` to `embed.typeform.com`** and `defer` on its loader, so the
+  third-party script costs less on first paint.
+
+### Structured data
+
+One `<script type="application/ld+json">` before `</head>` holding three linked
+nodes:
+
+| Node | What it does |
+| --- | --- |
+| `LocalBusiness` + `FoodEstablishment` | The business itself: name, email, founding year, logo, price range, the drink menu, and the six event types as an `OfferCatalog` |
+| `WebSite` | Names the site, so Google can show "Nevaeh Coffee Company" as the site name in results |
+| `WebPage` + `FAQPage` | The six FAQ entries, eligible for expandable results |
+
+Two details worth knowing before editing it:
+
+- **The FAQ and service entries are generated from the visible markup**, so the
+  schema cannot drift from what a visitor reads. If you reword a FAQ answer in
+  the HTML, reword it identically in the JSON-LD — Google treats a mismatch
+  between schema and visible copy as a violation and will drop the rich result.
+- **There is no street address, and that is correct.** A mobile business with no
+  storefront declares locality and region only; the coverage is expressed as a
+  `GeoCircle` with a 144,841-metre (90-mile) radius around Orlando, plus the
+  sixteen towns named on the page.
+
+### Deliberately left out
+
+These would all be schema violations or fabrications as things stand, so they are
+absent rather than guessed at:
+
+- **`openingHoursSpecification`** — you book by date, not by walk-in hours. If you
+  want to publish availability (say, "Saturdays, 6am–11pm"), add it to the
+  `LocalBusiness` node and to the page copy at the same time.
+- **`aggregateRating` / `review`** — self-declared review markup with no real
+  reviews behind it is a manual-action risk. Once you have reviews on Google, they
+  surface through the Business Profile anyway; do not hand-write them here.
+- **`telephone`** — there is no phone number on the site. Add it to both the
+  footer and the `LocalBusiness` node together if that changes.
+- **`sameAs`** — fill this array with your Instagram, Facebook, and Google
+  Business Profile URLs once they exist. It is how Google confirms that the site,
+  the profile, and the social accounts are the same business, and it is probably
+  the single highest-value line you can add to the schema.
+
+### Off the site
+
+For a local service business, the page is maybe a third of the work. The rest:
+
+1. **Claim the Google Business Profile.** For a service-area business, set it to
+   hide the address and declare the service area instead. This is the largest
+   single ranking factor for "mobile coffee bar near me" style searches, and it
+   feeds the map pack, which sits above the organic results.
+2. **Keep NAP identical everywhere.** Name, address, phone — byte-for-byte the
+   same string on the site, the Business Profile, and every directory. "Nevaeh
+   Coffee Company", Orlando, FL. Inconsistency is the most common reason local
+   rankings stall.
+3. **Verify in Google Search Console**, submit `sitemap.xml`, and check the
+   Rich Results Test for the FAQ markup.
+4. **Get listed where planners actually look** — The Knot, WeddingWire, Zola,
+   and the venue vendor lists for the places you already work. Venue backlinks
+   are the most valuable ones available to a wedding vendor, and they are usually
+   free for the asking once you have poured there.
+5. **Ask for Google reviews after every event.** Volume and recency both count.
+6. **Add photos.** A gallery of real setups is still the highest-value addition to
+   this site, for booking and for search alike — image results and the Business
+   Profile both reward it.
 
 ## Design notes
 
