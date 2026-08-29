@@ -108,7 +108,7 @@ nodes:
 | --- | --- |
 | `LocalBusiness` + `FoodEstablishment` | The business itself: name, email, founding year, logo, price range, the drink menu, and the six event types as an `OfferCatalog` |
 | `WebSite` | Names the site, so Google can show "Nevaeh Coffee Company" as the site name in results |
-| `WebPage` + `FAQPage` | The six FAQ entries, eligible for expandable results |
+| `WebPage` + `FAQPage` | The four FAQ entries, eligible for expandable results |
 
 Two details worth knowing before editing it:
 
@@ -165,8 +165,12 @@ For a local service business, the page is maybe a third of the work. The rest:
 ## Mobile
 
 Most visitors arrive on a phone, so the phone layout is the one that gets
-measured. Three things differ from the desktop page rather than just reflowing
+measured. Two things differ from the desktop page rather than just reflowing
 into it.
+
+Nothing floats over the page. A sticky booking bar was tried and removed — on a
+page this length the routes to the form are the hero button, the nav, and the
+footer link.
 
 **The service-area map is reframed, not shrunk.** The full-state viewBox scales
 the town labels to roughly half their stated size — 13px type lands at about
@@ -176,14 +180,6 @@ cropping to the service area itself: same footprint, all nine places named, and
 the 90-mile circle filling the frame. The whole state is context a phone has no
 room for; the circle is the part that answers "do you come to my venue?".
 Without JavaScript the full map renders with labels hidden, as before.
-
-**A booking bar rides along the bottom.** The page runs about eight screens on a
-handset and the only two ways to book sit at either end of them. The bar appears
-once the hero button scrolls off and drops away again as soon as the inquiry
-form comes into view, so it never covers the thing it points at. It also stands
-down while the nav panel is open, and it does not appear on landscape phones
-(`min-height: 480px`), where it would eat a fifth of the viewport. It is fixed
-only under `.js`, since the script is what moves it.
 
 **The event grid changes shape twice.** Three columns above 760px, two below,
 and one below 360px — where two columns leave about 110px for text, which is

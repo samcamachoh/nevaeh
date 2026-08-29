@@ -326,12 +326,10 @@ section[id],main[id]{scroll-margin-top:5rem;}
 .btn-ghost:hover{background:color-mix(in srgb,var(--night-ink) 8%,transparent);}
 /* Buttons sitting on a nocturne band run camel-on-espresso, not the
    roasted light-theme accent, which would disappear against the dark. */
-.hero .btn:not(.btn-ghost),
-.bookbar .btn{
+.hero .btn:not(.btn-ghost){
   background:var(--night-accent);color:#1A1510;
 }
-.hero .btn:not(.btn-ghost):hover,
-.bookbar .btn:hover{background:#DCBB9C;}
+.hero .btn:not(.btn-ghost):hover{background:#DCBB9C;}
 
 /* ── Hero ──────────────────────────────────────────────────────────── */
 .hero{
@@ -806,28 +804,6 @@ section[id],main[id]{scroll-margin-top:5rem;}
   .map.is-zoomed .map-pin circle{r:3.5;}
   .map.is-zoomed .map-pin-hub circle{r:10;}
   .map.is-zoomed .map-pin-hub circle + circle{r:4.5;}
-}
-
-/* ── Phone booking bar ─────────────────────────────────────────────
-   Eight screens of scroll with the only two ways to book at either end
-   of them. The bar rides in once the hero button is gone and drops away
-   again from the form down, so it never covers the thing it points at.
-   Fixed positioning only under .js, since the script is what moves it. */
-.bookbar{display:none;}
-@media (max-width:899px) and (min-height:480px){
-  .js .bookbar{
-    display:block;position:fixed;left:0;right:0;bottom:0;z-index:60;
-    padding:.7rem var(--gutter);
-    padding-bottom:calc(.7rem + env(safe-area-inset-bottom,0px));
-    background:color-mix(in srgb,var(--night) 94%,transparent);
-    -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
-    border-top:1px solid var(--night-line);
-    transform:translateY(115%);
-    transition:transform .34s var(--ease);
-    pointer-events:none;
-  }
-  .js .bookbar.is-up{transform:none;pointer-events:auto;}
-  .bookbar .btn{display:flex;width:100%;padding-block:.9rem;}
 }
 
 @media (max-width:600px){
@@ -1760,12 +1736,6 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
   </div>
 </footer>
 
-<!-- Phone booking bar. Hidden unless the script is running, since the
-     script is what decides when it belongs on screen. -->
-<div class="bookbar" id="bookbar">
-  <a class="btn" href="#inquire">Check your date</a>
-</div>
-
 <script>
 (function(){
   "use strict";
@@ -1783,7 +1753,6 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
     primaryNav.classList.toggle("is-open", open);
     navToggle.setAttribute("aria-expanded", open ? "true" : "false");
     navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-    onScroll();          // the booking bar stands down while the panel is open
   }
   function navOpen(){ return primaryNav.classList.contains("is-open"); }
 
@@ -1812,27 +1781,12 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
   var hdr = document.getElementById("hdr");
   var scrollQueued = false;
 
-  /* The booking bar rides along on the same paint. It shows once the hero
-     button has scrolled off and hides again as soon as the form it points
-     at comes into view — and while the nav panel is open, so the two never
-     stack up on a short screen. */
-  var bookbar = document.getElementById("bookbar");
-  var heroCta = document.querySelector(".hero-cta");
-  var inquire = document.getElementById("inquire");
-
   function paintScroll(){
     scrollQueued = false;
     var doc = document.documentElement;
     var max = doc.scrollHeight - doc.clientHeight;
     hdr.classList.toggle("is-stuck", window.scrollY > 12);
     hdr.style.setProperty("--progress", max > 0 ? (window.scrollY / max).toFixed(4) : "0");
-
-    if (bookbar && heroCta && inquire) {
-      bookbar.classList.toggle("is-up",
-        heroCta.getBoundingClientRect().bottom < 0 &&
-        inquire.getBoundingClientRect().top > window.innerHeight &&
-        !navOpen());
-    }
   }
   function onScroll(){
     if (scrollQueued) return;              // one paint per frame, not one per event
