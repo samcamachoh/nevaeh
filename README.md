@@ -10,7 +10,8 @@ no server required.
 
 Six sections: hero, what we do (event types), the bar (drinks and how it works),
 where we travel (Central Florida map with a 90-mile radius), FAQ, and the inquiry
-section, which is a short section head over the Typeform embed.
+section, which is a short section head over the Typeform embed. A menu ticker
+runs between the event types and the bar.
 
 ## What's here
 
@@ -211,7 +212,30 @@ independently, and `--display-tracking` holds the heading letter-spacing.
 
 The palette is built from the two colors in the logo: the cream `#F1F3E8` and the
 camel `#CBA98A`. The camel is darkened to `#8C6035` for text and buttons on cream
-so it stays legible; at full strength it's used on the dark bands.
+so it stays legible; at full strength it's used on the dark bands and on the menu
+ticker, which is the one place it carries a whole band as a ground
+(`--camel-band`, fixed in both themes like the nocturne sections). Espresso on
+camel there holds 8.3:1.
+
+Four things keep the page from reading as flat type on flat fills:
+
+- **Grain.** One 140px noise tile, fixed over the whole page at 5% via
+  `body::after`. Cream reads as paper rather than a blank fill, and the espresso
+  bands pick up a film cast. No blend mode, one composited layer.
+- **Warm light.** Each cream band carries a radial `--accent-wash` bloom off one
+  top corner, the same light the hero pour throws.
+- **The ticker.** Two identical sets of drink names side by side in a
+  `width: max-content` row; the row travels exactly `-50%`, so the loop has no
+  seam. Masked at both edges, paused on hover, stopped under reduced motion. It
+  duplicates the chip lists below, so it is `aria-hidden`.
+- **Index numerals.** The event cells number themselves with a CSS counter —
+  `counter(offer, decimal-leading-zero)` on `::after`, no markup — set large and
+  low-contrast behind the copy, and scaled with `clamp` so they do not swamp the
+  two-up column on a phone.
+
+Section heads set the heading against its copy in two columns above 900px, which
+is what fills the measure on a wide screen; `:has(p)` keeps the FAQ head, which
+has no paragraph, out of it.
 
 The hero art is a canvas field, not a photograph: value noise, twisted around a
 point off to the right and folded back on itself so it draws thin bright veins,

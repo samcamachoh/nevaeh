@@ -80,7 +80,14 @@
   --night-danger:#E89272;
 
   --shadow:0 1px 2px rgba(34,30,21,.05),0 8px 28px -12px rgba(34,30,21,.20);
+  --lift:0 2px 4px rgba(34,30,21,.04),0 12px 32px -14px rgba(34,30,21,.28);
   --radius:3px;
+
+  /* The camel at full strength, as a ground rather than an accent. Fixed in
+     both themes, like the nocturne bands — it is the logo's own pairing. */
+  --camel-band:#CBA98A;
+  --camel-band-ink:#1A1510;
+  --camel-band-line:rgba(26,21,16,.22);
 
   /* One typeface in two roles: Archivo tightened and semibold for display,
      regular for body. Both tokens stay so either role can move on its own. */
@@ -133,6 +140,15 @@
 *,*::before,*::after{box-sizing:border-box;}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
+/* A fine tooth over the whole page. Flat cream reads as a blank fill; with
+   grain it reads as paper, and the espresso bands pick up a film cast. One
+   140px tile, composited once, no blend mode — cheap enough for a phone. */
+body::after{
+  content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;
+  opacity:.05;
+  background-image:url("data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='140'%20height='140'><filter%20id='n'><feTurbulence%20type='fractalNoise'%20baseFrequency='.9'%20numOctaves='4'%20stitchTiles='stitch'/><feColorMatrix%20type='saturate'%20values='0'/></filter><rect%20width='140'%20height='140'%20filter='url%28%23n%29'/></svg>");
+  background-size:140px 140px;
+}
 body{
   margin:0;
   background:var(--ground);
@@ -356,19 +372,9 @@ section[id],main[id]{scroll-margin-top:5rem;}
   }
 }
 .hero-in{position:relative;z-index:2;padding-block:clamp(4.5rem,13vw,9rem) clamp(3.5rem,8vw,6rem);}
-.hero-eyebrow{
-  display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;
-  color:var(--night-accent);font-size:.6875rem;font-weight:600;
-  letter-spacing:.18em;text-transform:uppercase;margin:0 0 1.6rem;
-}
-.hero-eyebrow span:not(:last-child)::after{
-  content:"";display:inline-block;vertical-align:middle;
-  width:4px;height:4px;margin-left:.75rem;border-radius:50%;
-  background:currentColor;opacity:.6;
-}
 .hero h1{
   font-family:var(--f-display);
-  font-size:clamp(2.45rem,7vw,5rem);
+  font-size:clamp(2.45rem,7vw,5.6rem);
   letter-spacing:-.038em;line-height:1.02;max-width:15ch;margin-bottom:1.8rem;
 }
 .hero h1 em{font-style:normal;color:var(--night-accent);}
@@ -412,12 +418,20 @@ section[id],main[id]{scroll-margin-top:5rem;}
   color:var(--night-faint);margin-bottom:.45rem;
 }
 .fact dd{
-  margin:0;font-family:var(--f-display);font-size:1.25rem;font-weight:600;
-  letter-spacing:-.02em;line-height:1.3;
+  margin:0;font-family:var(--f-display);
+  font-size:clamp(1.5rem,2.6vw,2.15rem);font-weight:600;
+  letter-spacing:-.03em;line-height:1.2;color:var(--night-ink);
 }
 
 /* ── Section heads ─────────────────────────────────────────────────── */
 .shead{max-width:var(--measure);margin-bottom:clamp(2.5rem,5vw,3.75rem);}
+/* A short camel rule opens every section — rhythm, and the accent earning
+   its place above the fold of each band rather than only inside headings. */
+.shead::before,.area-copy::before{
+  content:"";display:block;width:46px;height:3px;border-radius:2px;
+  background:var(--accent);margin-bottom:1.5rem;
+}
+.area-copy::before{background:var(--night-accent);}
 .shead h2{
   font-family:var(--f-display);
   font-size:clamp(1.75rem,4vw,2.85rem);letter-spacing:-.032em;
@@ -425,18 +439,48 @@ section[id],main[id]{scroll-margin-top:5rem;}
 }
 .shead h2 em{font-style:normal;color:var(--accent);}
 .shead p{margin-top:1.15rem;color:var(--ink-soft);font-size:var(--s-1);max-width:52ch;}
+/* Every section head ran down the left third and left the rest of a
+   1160px page empty, which is most of why the desktop layout read as
+   thin. Setting the heading against its copy fills the measure and gives
+   the eye somewhere to go. :has keeps the FAQ head — which has no
+   paragraph — out of it, and browsers without :has keep the stack. */
+@media (min-width:900px){
+  .shead:has(p){
+    max-width:none;display:grid;align-items:end;
+    grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+    gap:clamp(2rem,5vw,4.5rem);
+  }
+  .shead:has(p)::before{grid-column:1 / -1;}
+  .shead:has(p) h2{max-width:15ch;}
+  .shead:has(p) p{margin-top:0;padding-bottom:.4rem;}
+}
 
 /* ── Intro / offering ──────────────────────────────────────────────── */
-.intro{background:var(--ground);}
+/* A warm bloom off the top-right corner. Flat fills are what read as
+   bland; this is the same light the hero pour throws, carried down. */
+.intro{background:radial-gradient(115% 75% at 88% -12%,var(--accent-wash),transparent 62%),var(--ground);}
 .offer{
   display:grid;gap:1px;background:var(--line);
   border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
 }
 @media (min-width:760px){.offer{grid-template-columns:repeat(3,1fr);}}
+.offer{counter-reset:offer;}
 .offer-cell{
-  position:relative;background:var(--surface);padding:clamp(1.6rem,3vw,2.25rem);
+  position:relative;overflow:hidden;counter-increment:offer;
+  background:var(--surface);padding:clamp(1.6rem,3vw,2.25rem);
   transition:background .3s ease;
 }
+/* The index sits behind the copy at low contrast — structure you feel
+   before you read it, and something for the eye to travel along. */
+.offer-cell::after{
+  content:counter(offer,decimal-leading-zero);
+  position:absolute;right:-.5rem;bottom:-1.4rem;
+  font-family:var(--f-display);font-size:clamp(3rem,7.5vw,5.5rem);font-weight:700;
+  line-height:1;letter-spacing:-.05em;color:var(--accent);opacity:.09;
+  transition:opacity .35s var(--ease),transform .35s var(--ease);
+  pointer-events:none;
+}
+.offer-cell:hover::after{opacity:.16;transform:translateY(-4px);}
 .offer-cell::before{
   content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent);
   transform:scaleY(0);transform-origin:top;transition:transform .38s var(--ease);
@@ -456,9 +500,12 @@ section[id],main[id]{scroll-margin-top:5rem;}
   .offer{grid-template-columns:1fr 1fr;}
   .offer-cell{padding:1.15rem 1rem 1.3rem;}
   .offer-cell h3{font-size:1.0625rem;line-height:1.25;}
-  .offer-cell p{font-size:.9375rem;line-height:1.5;}
+  /* Out-specifies the base .offer-cell p below, which sets the roomier
+     desktop size and would otherwise win on source order. */
+  .offer .offer-cell p{font-size:.9375rem;line-height:1.5;}
 }
-.offer-cell p{color:var(--ink-soft);font-size:.9375rem;}
+.offer-cell p{color:var(--ink-soft);font-size:1rem;line-height:1.55;position:relative;}
+.offer-cell h3{position:relative;}
 
 /* Placed after the base rule above, which would otherwise win on source
    order at equal specificity. */
@@ -472,27 +519,65 @@ section[id],main[id]{scroll-margin-top:5rem;}
   .offer-cell p{font-size:1rem;line-height:1.55;}
 }
 
+/* ── Menu ticker ────────────────────────────────────────────────────
+   The camel at full strength, which appears nowhere else at this size —
+   the page runs cream and espresso and wants one band of actual colour.
+   Two identical sets sit side by side and the row travels exactly half
+   its width, so the loop has no seam. Hover holds it; reduced motion
+   stops it outright and it reads as a static strip.                   */
+.ticker{
+  overflow:hidden;background:var(--camel-band);color:var(--camel-band-ink);
+  border-block:1px solid var(--camel-band-line);
+  padding-block:clamp(.85rem,1.8vw,1.15rem);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+}
+.ticker-row{display:flex;width:max-content;animation:tick 46s linear infinite;}
+.ticker:hover .ticker-row{animation-play-state:paused;}
+.ticker-set{display:flex;align-items:center;}
+.tick-item{
+  font-family:var(--f-display);font-weight:600;
+  font-size:clamp(1.05rem,2.1vw,1.6rem);letter-spacing:-.025em;
+  white-space:nowrap;padding-inline:clamp(.9rem,1.8vw,1.5rem);
+}
+.tick-bean{
+  width:clamp(13px,1.5vw,18px);height:auto;flex:none;
+  color:var(--camel-band-ink);opacity:.42;
+}
+@keyframes tick{to{transform:translateX(-50%);}}
+
 /* ── The bar ───────────────────────────────────────────────────────── */
-.bar{background:var(--ground-2);}
+.bar{background:radial-gradient(105% 70% at 8% -10%,var(--accent-wash),transparent 58%),var(--ground-2);}
 .chip-label:first-of-type{margin-top:0;}
 
 /* ── Chips (what we pour) ──────────────────────────────────────────── */
-.chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem;}
+.chips{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:2rem;}
 .tag{
   display:inline-flex;align-items:center;
-  padding:.42rem .9rem;border:1px solid var(--line);border-radius:999px;
-  font-size:.8125rem;letter-spacing:.01em;color:var(--ink);background:var(--surface);
-  transition:transform .22s var(--ease),border-color .22s ease,color .22s ease;
+  padding:.6rem 1.15rem;border:1px solid var(--line);border-radius:999px;
+  font-size:.9375rem;font-weight:500;letter-spacing:.005em;
+  color:var(--ink);background:var(--surface);box-shadow:var(--shadow);
+  transition:transform .22s var(--ease),border-color .22s ease,
+             color .22s ease,box-shadow .22s ease,background .22s ease;
 }
-.tag:hover{transform:translateY(-2px);border-color:var(--accent);color:var(--accent);}
+.tag:hover{
+  transform:translateY(-3px);border-color:var(--accent);color:var(--accent);
+  background:var(--accent-wash);box-shadow:var(--lift);
+}
 .chips + .chips{margin-top:.85rem;}
 .chip-label{
   width:100%;font-size:.6875rem;font-weight:600;letter-spacing:.15em;
   text-transform:uppercase;color:var(--ink-faint);margin:1.75rem 0 -.2rem;
 }
+/* This paragraph carries the pricing answer, which is the thing every
+   planner is actually looking for. It was set as a footnote. */
 .note{
-  margin-top:2.5rem;padding-top:1.6rem;border-top:1px solid var(--line);
-  color:var(--ink-soft);font-size:.9375rem;max-width:56ch;
+  margin-top:clamp(2.5rem,5vw,3.5rem);
+  padding:clamp(1.4rem,3vw,2rem) 0 clamp(1.4rem,3vw,2rem) clamp(1.4rem,3vw,2.2rem);
+  border-left:3px solid var(--accent);
+  color:var(--ink-soft);font-family:var(--f-display);font-weight:400;
+  font-size:clamp(1.15rem,2.1vw,1.5rem);line-height:1.45;
+  letter-spacing:-.015em;max-width:40ch;
 }
 .note strong{color:var(--ink);font-weight:600;}
 
@@ -550,8 +635,8 @@ section[id],main[id]{scroll-margin-top:5rem;}
 }
 
 /* ── FAQ ───────────────────────────────────────────────────────────── */
-.faq{background:var(--ground-2);}
-.faq-list{max-width:820px;}
+.faq{background:radial-gradient(110% 70% at 92% -10%,var(--accent-wash),transparent 60%),var(--ground-2);}
+.faq-list{max-width:960px;}
 .faq-item{border-bottom:1px solid var(--line);}
 .faq-item:first-child{border-top:1px solid var(--line);}
 .faq-item summary{
@@ -570,6 +655,7 @@ section[id],main[id]{scroll-margin-top:5rem;}
 
 /* ── Inquiry form ──────────────────────────────────────────────────── */
 .inquire{background:var(--night);color:var(--night-ink);}
+.inquire .shead::before{background:var(--night-accent);}
 .inquire .shead h2 em{color:var(--night-accent);}
 .inquire .shead p{color:var(--night-soft);}
 /* The embed reserves 520-600px of height before it loads, so the fallback is
@@ -773,16 +859,6 @@ section[id],main[id]{scroll-margin-top:5rem;}
   /* Three stacked facts ran 330px before the first section. Tightening the
      rows gives that back without crowding them. */
   .fact{padding-block:1.15rem;}
-
-  /* Wrapped, a trailing separator is left dangling at the end of the line;
-     leading ones sit at the start of the next line instead, where they
-     read as a marker rather than an orphan. */
-  .hero-eyebrow span:not(:last-child)::after{display:none;}
-  .hero-eyebrow span:not(:first-child)::before{
-    content:"";display:inline-block;vertical-align:middle;
-    width:4px;height:4px;margin-right:.75rem;border-radius:50%;
-    background:currentColor;opacity:.6;
-  }
 }
 
 /* ── Anyone who asked for less motion gets none of it ──────────────
@@ -791,6 +867,7 @@ section[id],main[id]{scroll-margin-top:5rem;}
    decoration). The script also skips the JS-driven animations.       */
 @media (prefers-reduced-motion:reduce){
   .js [data-reveal]{opacity:1;transform:none;transition:none;}
+  .ticker-row{animation:none;}
   .js .map .map-coast{stroke-dasharray:none;stroke-dashoffset:0;fill-opacity:1;animation:none;}
   .js .map .map-radius,.js .map.is-live .map-radius,
   .js .map .map-cap,.js .map .map-label-hub,.js .map .map-pin-hub{
@@ -1320,31 +1397,26 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
   <section class="hero">
     <canvas id="crema" aria-hidden="true"></canvas>
     <div class="wrap hero-in">
-      <p class="hero-eyebrow rise rise-1">
-        <span>Christian-Owned</span>
-        <span>Mobile Espresso Bar</span>
-        <span>Central Florida</span>
-      </p>
-      <h1 class="rise rise-2">The mobile coffee bar that <em>comes to you.</em></h1>
-      <p class="hero-sub rise rise-3">
+      <h1 class="rise rise-1">The mobile coffee bar that <em>comes to you.</em></h1>
+      <p class="hero-sub rise rise-2">
         A full espresso bar — real machine, real baristas, real milk — rolled into your
         venue and set up wherever you need it. We pop up at weddings, corporate events,
         parties, and just about anything else across <strong>Orlando, Winter Park,
         Mount Dora, and everywhere within 90 miles.</strong>
       </p>
-      <div class="hero-cta rise rise-4">
+      <div class="hero-cta rise rise-3">
         <a class="btn" href="#inquire">Learn More</a>
       </div>
     </div>
     <div class="facts">
       <dl class="wrap facts-in">
-        <div class="fact rise rise-5">
+        <div class="fact rise rise-4">
           <dt>Home base</dt><dd>Orlando, FL</dd>
         </div>
-        <div class="fact rise rise-6">
+        <div class="fact rise rise-5">
           <dt>We travel</dt><dd>90 miles out</dd>
         </div>
-        <div class="fact rise rise-7">
+        <div class="fact rise rise-6">
           <dt>Indoor or out</dt><dd>Self-powered</dd>
         </div>
       </dl>
@@ -1392,6 +1464,67 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
       </div>
     </div>
   </section>
+
+
+  <!-- ═══ Menu ticker ═══
+       Decorative, and a duplicate of the chip lists below, so it is hidden
+       from assistive tech rather than read out twice. -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-row">
+      <div class="ticker-set">
+        <span class="tick-item">Espresso</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Cortado</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Cappuccino</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Latte</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Flat White</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Americano</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Cold Brew</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Mocha</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Chai</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Matcha</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Iced Shaken Espresso</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Espresso Tonic</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+      </div>
+      <div class="ticker-set">
+        <span class="tick-item">Espresso</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Cortado</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Cappuccino</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Latte</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Flat White</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Americano</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Cold Brew</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Mocha</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Chai</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Matcha</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Iced Shaken Espresso</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+        <span class="tick-item">Espresso Tonic</span>
+        <svg class="tick-bean" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
+      </div>
+    </div>
+  </div>
 
   <!-- ═══ The bar ═══ -->
   <section class="band bar" id="bar">
