@@ -1739,7 +1739,8 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
 <script>
 (function(){
   "use strict";
-  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reduceQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  function reducedMotion(){ return reduceQuery.matches; }
 
   /* ── Year ─────────────────────────────────────────────────────── */
   var yr = document.getElementById("yr");
@@ -1797,6 +1798,21 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
   window.addEventListener("scroll", onScroll, {passive:true});
   window.addEventListener("resize", onScroll, {passive:true});
 
+  /* Responsive map framing is layout behavior and must not depend on
+     IntersectionObserver support. */
+  var mapEl = document.querySelector(".map");
+  if (mapEl && window.matchMedia) {
+    var wide = window.matchMedia("(min-width:1201px)");
+    var frameMap = function(){
+      var zoom = !wide.matches;
+      mapEl.classList.toggle("is-zoomed", zoom);
+      mapEl.setAttribute("viewBox", zoom ? "354 91 294 270" : "0 0 640 570");
+    };
+    frameMap();
+    if (wide.addEventListener) wide.addEventListener("change", frameMap);
+    else if (wide.addListener) wide.addListener(frameMap);
+  }
+
   /* ── Reveal on scroll ─────────────────────────────────────────────
      Containers marked data-stagger hand their children a --i so they
      arrive in sequence. data-live elements keep being observed, so a
@@ -1826,22 +1842,6 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
     document.querySelectorAll("[data-reveal],[data-live]").forEach(function(el){
       revealIO.observe(el);
     });
-
-    /* Below 1200px the full-state viewBox shrinks the town labels out of
-       legibility, so the map is reframed onto the service area instead of
-       being stripped of them. Same footprint, sixteen towns named. */
-    var mapEl = document.querySelector(".map");
-    if (mapEl && window.matchMedia) {
-      var wide = window.matchMedia("(min-width:1201px)");
-      var frameMap = function(){
-        var zoom = !wide.matches;
-        mapEl.classList.toggle("is-zoomed", zoom);
-        mapEl.setAttribute("viewBox", zoom ? "354 91 294 270" : "0 0 640 570");
-      };
-      frameMap();
-      if (wide.addEventListener) wide.addEventListener("change", frameMap);
-      else if (wide.addListener) wide.addListener(frameMap);
-    }
 
     /* The coastline needs its own length before it can draw itself. */
     var coast = document.querySelector(".map-coast");
@@ -1876,13 +1876,15 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
     var wrap    = item.querySelector(".ans-wrap");
     if (!summary || !wrap || !wrap.animate) return;
     var running = null;
+    var desiredOpen = item.open;
 
     summary.addEventListener("click", function(e){
-      if (reduce) return;                  // let the browser just toggle it
+      if (reducedMotion()) return;         // let the browser just toggle it
       e.preventDefault();
+      desiredOpen = !desiredOpen;
       if (running) running.cancel();
 
-      if (!item.open) {
+      if (desiredOpen) {
         item.open = true;                  // render it, then grow into place
         running = wrap.animate(
           [{height:"0px", opacity:0}, {height:wrap.scrollHeight + "px", opacity:1}],
@@ -1892,7 +1894,10 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
         running = wrap.animate(
           [{height:wrap.scrollHeight + "px", opacity:1}, {height:"0px", opacity:0}],
           {duration:250, easing:"cubic-bezier(.16,.72,.24,1)"});
-        running.onfinish = function(){ item.open = false; running = null; };
+        running.onfinish = function(){
+          if (!desiredOpen) item.open = false;
+          running = null;
+        };
       }
     });
   });
@@ -2017,7 +2022,7 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
       ctx.drawImage(buf, 0, 0, w, h);
     }
 
-    function play(){ if (!raf && !reduce) raf = requestAnimationFrame(tick); }
+    function play(){ if (!raf && !reducedMotion()) raf = requestAnimationFrame(tick); }
     function stop(){ if (raf) { cancelAnimationFrame(raf); raf = null; } }
 
     function tick(ms){
@@ -2030,10 +2035,17 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
     function start(){
       size();
       stop();
-      if (reduce) draw(0); else play();
+      if (reducedMotion()) draw(0); else play();
     }
 
     start();
+
+    var onMotionChange = function(){
+      stop();
+      if (reducedMotion()) draw(0); else play();
+    };
+    if (reduceQuery.addEventListener) reduceQuery.addEventListener("change", onMotionChange);
+    else if (reduceQuery.addListener) reduceQuery.addListener(onMotionChange);
 
     /* The hero grows when the webfont swaps in or the viewport changes, and
        a canvas whose bitmap no longer matches its box renders stretched. */
@@ -2048,7 +2060,7 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
     /* No reason to stir a cup nobody is looking at. */
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(function(entries){
-        if (reduce) return;
+        if (reducedMotion()) return;
         if (entries[0].isIntersecting) play(); else stop();
       }, {threshold:0}).observe(cv);
     }

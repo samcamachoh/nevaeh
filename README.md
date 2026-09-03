@@ -25,10 +25,11 @@ runs between the event types and the bar.
 | `sitemap.xml` | One URL, since there is one page |
 | `CNAME` | Tells GitHub Pages to serve the site at `nevaeh-coffee.com` |
 
-`index.html` is fully self-contained. The typeface (Archivo) is embedded as a
-base64 `@font-face` source, and the logo is an inline SVG path traced from the
-PNG, so the page renders identically offline and on any host. Nothing is fetched
-from a CDN.
+The site's own assets are self-contained in `index.html`. The typeface (Archivo)
+is embedded as a base64 `@font-face` source, and the logo is an inline SVG path
+traced from the PNG, so the page shell renders identically offline and on any
+host. The inquiry form is the exception: its Typeform loader is fetched from
+`embed.typeform.com` and requires a network connection.
 
 ## Deploying
 
