@@ -1,0 +1,99 @@
+name: One-time review fixes
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/review-findings
+      - name: Apply reviewed fixes
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text()
+          s = s.replace('  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;', '  var reduceQuery = window.matchMedia("(prefers-reduced-motion: reduce)");\n  function reducedMotion(){ return reduceQuery.matches; }', 1)
+          old_map = '''    /* Below 1200px the full-state viewBox shrinks the town labels out of
+       legibility, so the map is reframed onto the service area instead of
+       being stripped of them. Same footprint, sixteen towns named. */
+    var mapEl = document.querySelector(".map");
+    if (mapEl && window.matchMedia) {
+      var wide = window.matchMedia("(min-width:1201px)");
+      var frameMap = function(){
+        var zoom = !wide.matches;
+        mapEl.classList.toggle("is-zoomed", zoom);
+        mapEl.setAttribute("viewBox", zoom ? "354 91 294 270" : "0 0 640 570");
+      };
+      frameMap();
+      if (wide.addEventListener) wide.addEventListener("change", frameMap);
+      else if (wide.addListener) wide.addListener(frameMap);
+    }
+
+'''
+          s = s.replace(old_map, '', 1)
+          marker = '''  /* ── Reveal on scroll ─────────────────────────────────────────────
+     Containers marked data-stagger hand their children a --i so they
+     arrive in sequence. data-live elements keep being observed, so a
+     looping animation can be switched off once it scrolls away.     */
+'''
+          new_map = '''  /* Responsive map framing is layout behavior and must not depend on
+     IntersectionObserver support. */
+  var mapEl = document.querySelector(".map");
+  if (mapEl && window.matchMedia) {
+    var wide = window.matchMedia("(min-width:1201px)");
+    var frameMap = function(){
+      var zoom = !wide.matches;
+      mapEl.classList.toggle("is-zoomed", zoom);
+      mapEl.setAttribute("viewBox", zoom ? "354 91 294 270" : "0 0 640 570");
+    };
+    frameMap();
+    if (wide.addEventListener) wide.addEventListener("change", frameMap);
+    else if (wide.addListener) wide.addListener(frameMap);
+  }
+
+'''
+          s = s.replace(marker, new_map + marker, 1)
+          s = s.replace('      if (reduce) return;                  // let the browser just toggle it', '      if (reducedMotion()) return;           // let the browser just toggle it', 1)
+          s = s.replace('    var running = null;\n\n    summary.addEventListener("click", function(e){', '    var running = null;\n    var desiredOpen = item.open;\n\n    summary.addEventListener("click", function(e){', 1)
+          s = s.replace('      e.preventDefault();\n      if (running) running.cancel();\n\n      if (!item.open) {', '      e.preventDefault();\n      desiredOpen = !desiredOpen;\n      if (running) running.cancel();\n\n      if (desiredOpen) {', 1)
+          s = s.replace('        running.onfinish = function(){ item.open = false; running = null; };', '        running.onfinish = function(){ if (!desiredOpen) item.open = false; running = null; };', 1)
+          s = s.replace('    function play(){ if (!raf && !reduce) raf = requestAnimationFrame(tick); }', '    function play(){ if (!raf && !reducedMotion()) raf = requestAnimationFrame(tick); }', 1)
+          s = s.replace('      if (reduce) draw(0); else play();', '      if (reducedMotion()) draw(0); else play();', 1)
+          s = s.replace('        if (reduce) return;', '        if (reducedMotion()) return;', 1)
+          s = s.replace('''    start();
+
+    /* The hero grows when the webfont swaps in or the viewport changes, and''', '''    start();
+
+    var onMotionChange = function(){
+      stop();
+      if (reducedMotion()) draw(0); else play();
+    };
+    if (reduceQuery.addEventListener) reduceQuery.addEventListener("change", onMotionChange);
+    else if (reduceQuery.addListener) reduceQuery.addListener(onMotionChange);
+
+    /* The hero grows when the webfont swaps in or the viewport changes, and''', 1)
+          p.write_text(s)
+          r = Path('README.md')
+          t = r.read_text()
+          t = t.replace('''`index.html` is fully self-contained. The typeface (Archivo) is embedded as a
+base64 `@font-face` source, and the logo is an inline SVG path traced from the
+PNG, so the page renders identically offline and on any host. Nothing is fetched
+from a CDN.''', '''The site's own assets are self-contained in `index.html`. The typeface (Archivo)
+is embedded as a base64 `@font-face` source, and the logo is an inline SVG path
+traced from the PNG, so the page shell renders identically offline and on any
+host. The inquiry form is the exception: its Typeform loader is fetched from
+`embed.typeform.com` and requires a network connection.''', 1)
+          r.write_text(t)
+          Path('.github/workflows/apply-review-fixes.yml').unlink(missing_ok=True)
+      - name: Commit to fix branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Fix reviewed accessibility and interaction issues"
+          git push origin HEAD:fix/review-findings
