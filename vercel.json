@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    { "source": "/events", "destination": "/" },
+    { "source": "/bar", "destination": "/" },
+    { "source": "/area", "destination": "/" },
+    { "source": "/faq", "destination": "/" },
+    { "source": "/inquire", "destination": "/" }
+  ]
+}

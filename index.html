@@ -1350,15 +1350,15 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
 
 <header class="hdr" id="hdr">
   <div class="wrap hdr-in">
-    <a class="brand" href="#top">
+    <a class="brand" href="/" data-route="top">
       <svg class="brand-mark" viewBox="0 0 120 120" aria-hidden="true"><use href="#bean"/></svg>
       <span class="brand-txt">Nevaeh Coffee Company</span>
     </a>
     <nav class="nav" id="primaryNav" aria-label="Primary">
-      <a href="#events">What We Do</a>
-      <a href="#bar">The Bar</a>
-      <a href="#area">Where We Travel</a>
-      <a href="#faq">FAQ</a>
+      <a href="/events" data-route="events">What We Do</a>
+      <a href="/bar" data-route="bar">The Bar</a>
+      <a href="/area" data-route="area">Where We Travel</a>
+      <a href="/faq" data-route="faq">FAQ</a>
     </nav>
     <button class="navtoggle" id="navToggle" type="button"
             aria-controls="primaryNav" aria-expanded="false" aria-label="Open menu">
@@ -1381,7 +1381,7 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
         Mount Dora, and everywhere within 90 miles.</strong>
       </p>
       <div class="hero-cta rise rise-3">
-        <a class="btn" href="#inquire">Learn More</a>
+        <a class="btn" href="/inquire" data-route="inquire">Learn More</a>
       </div>
     </div>
     <div class="facts">
@@ -1713,15 +1713,15 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
     <div class="foot-cols" data-stagger>
       <div class="foot-col">
         <h4>Explore</h4>
-        <a href="#events">What We Do</a>
-        <a href="#bar">The Bar</a>
-        <a href="#area">Where We Travel</a>
-        <a href="#faq">FAQ</a>
+        <a href="/events" data-route="events">What We Do</a>
+        <a href="/bar" data-route="bar">The Bar</a>
+        <a href="/area" data-route="area">Where We Travel</a>
+        <a href="/faq" data-route="faq">FAQ</a>
       </div>
       <div class="foot-col">
         <h4>Get in touch</h4>
         <a href="mailto:info@nevaeh-coffee.com">info@nevaeh-coffee.com</a>
-        <a href="#inquire">Check your date</a>
+        <a href="/inquire" data-route="inquire">Check your date</a>
       </div>
       <div class="foot-col">
         <h4>Service area</h4>
@@ -1741,6 +1741,64 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
   "use strict";
   var reduceQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   function reducedMotion(){ return reduceQuery.matches; }
+
+  /* ── Clean section routes ─────────────────────────────────────────
+     The site remains one page, but its public links use real paths such as
+     /events and /inquire instead of URL fragments. Vercel rewrites those
+     paths to this document; this client-side layer handles scrolling and
+     browser history without reloading the page. Legacy #section links are
+     upgraded in place so old bookmarks continue to work. */
+  var routeTargets = {
+    "/": "top",
+    "/events": "events",
+    "/bar": "bar",
+    "/area": "area",
+    "/faq": "faq",
+    "/inquire": "inquire"
+  };
+
+  function cleanPath(path){
+    if (!path || path === "/") return "/";
+    return path.replace(/\/+$/, "");
+  }
+
+  function scrollToRoute(path, behavior){
+    var id = routeTargets[cleanPath(path)];
+    var target = id && document.getElementById(id);
+    if (!target) return false;
+    target.scrollIntoView({behavior:behavior || "auto", block:"start"});
+    return true;
+  }
+
+  document.addEventListener("click", function(e){
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey ||
+        e.shiftKey || e.altKey) return;
+    var link = e.target.closest("a[data-route]");
+    if (!link) return;
+    var url = new URL(link.href, window.location.href);
+    if (url.origin !== window.location.origin || !routeTargets[cleanPath(url.pathname)]) return;
+
+    e.preventDefault();
+    var nextPath = cleanPath(url.pathname);
+    if (cleanPath(window.location.pathname) !== nextPath || window.location.hash) {
+      history.pushState(null, "", nextPath);
+    }
+    scrollToRoute(nextPath, reducedMotion() ? "auto" : "smooth");
+  });
+
+  window.addEventListener("popstate", function(){
+    scrollToRoute(window.location.pathname, reducedMotion() ? "auto" : "smooth");
+  });
+
+  var legacyTarget = window.location.hash.slice(1);
+  var initialPath = cleanPath(window.location.pathname);
+  if (legacyTarget && routeTargets["/" + legacyTarget] === legacyTarget) {
+    initialPath = "/" + legacyTarget;
+    history.replaceState(null, "", initialPath);
+  }
+  if (initialPath !== "/" && routeTargets[initialPath]) {
+    window.addEventListener("load", function(){ scrollToRoute(initialPath, "auto"); });
+  }
 
   /* ── Year ─────────────────────────────────────────────────────── */
   var yr = document.getElementById("yr");
@@ -1852,8 +1910,8 @@ if ("IntersectionObserver" in window) document.documentElement.className += " js
 
     /* Highlight the nav link for whatever section is under the reader. */
     var navLinks = {};
-    document.querySelectorAll(".nav a[href^='#']").forEach(function(a){
-      navLinks[a.getAttribute("href").slice(1)] = a;
+    document.querySelectorAll(".nav a[data-route]").forEach(function(a){
+      navLinks[a.getAttribute("data-route")] = a;
     });
     var navIO = new IntersectionObserver(function(entries){
       entries.forEach(function(en){
