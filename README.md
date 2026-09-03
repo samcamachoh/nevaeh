@@ -24,6 +24,7 @@ runs between the event types and the bar.
 | `robots.txt` | Crawler rules; points at the sitemap |
 | `sitemap.xml` | One URL, since there is one page |
 | `CNAME` | Tells GitHub Pages to serve the site at `nevaeh-coffee.com` |
+| `vercel.json` | Rewrites clean section paths such as `/inquire` to the one-page site |
 
 The site's own assets are self-contained in `index.html`. The typeface (Archivo)
 is embedded as a base64 `@font-face` source, and the logo is an inline SVG path
@@ -40,8 +41,16 @@ Any static host works, since the whole site is one file:
   GitHub (an `ALIAS`/`ANAME` on the apex to `samcamachoh.github.io`, or four `A`
   records to GitHub's Pages IPs) and tick **Enforce HTTPS** once the certificate
   issues.
-- **Netlify / Vercel** — drag the folder in, or connect this repo; no build command
+- **Vercel** — drag the folder in, or connect this repo; no build command. The
+  included `vercel.json` also enables the clean section routes.
+- **Netlify** — drag the folder in, or connect this repo; no build command, then
+  mirror the clean-path rewrites from `vercel.json` in Netlify's routing config.
 - **Any web host** — upload `index.html` as the site root
+
+The navigation uses clean section routes (`/events`, `/bar`, `/area`, `/faq`,
+and `/inquire`) while keeping the single-page scrolling experience. On Vercel,
+`vercel.json` rewrites each route to `index.html`. Other hosts need equivalent
+fallback rewrites for those paths; otherwise direct visits will return 404.
 
 ## Before going live
 
