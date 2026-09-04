@@ -9,14 +9,14 @@ A focused, static landing page for Nevaeh — a mobile coffee cart appearing at 
 
 The site is intentionally lightweight: one HTML file, no dependencies, no build step, no embedded forms, and no client-side JavaScript.
 
-The visual direction is luxurious and minimal: deep espresso, warm ivory, muted bronze, high-contrast editorial typography, fine rules, and generous spacing. The landing page intentionally uses no photography.
+The visual direction is luxurious and minimal: deep espresso, warm ivory, muted bronze, high-contrast editorial typography, fine rules, and generous spacing. The landing page intentionally uses no photography; the responsive Nevaeh mark appears only in the header.
 
 ## Files
 
 | File | Purpose |
 | --- | --- |
 | `index.html` | The complete site, including styles and structured data |
-| `N Responsive.jpg` | Archived brand asset; not displayed on the landing page |
+| `N Responsive.jpg` | Responsive Nevaeh mark used in the header |
 | `og-image.png` | Existing social sharing image |
 | `apple-touch-icon.png` | Home-screen icon |
 | `robots.txt` | Search crawler rules |
