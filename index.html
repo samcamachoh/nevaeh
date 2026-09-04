@@ -56,6 +56,21 @@
     .button.secondary{border-color:rgba(244,238,229,.28)}
     .button.secondary:hover{border-color:var(--cream);background:var(--cream);color:var(--espresso)}
     h2{font-size:clamp(3.5rem,7vw,6.4rem)}
+    .signatures{padding:clamp(110px,14vw,180px) 0;background:var(--paper);border-top:1px solid var(--line)}
+    .signature-intro{display:grid;grid-template-columns:minmax(180px,.55fr) minmax(0,1.45fr);gap:48px;align-items:start}
+    .signature-intro .eyebrow{color:var(--coffee);padding-top:12px}
+    .signature-copy{max-width:640px;margin:34px 0 0;color:var(--muted);font-size:clamp(.96rem,1.5vw,1.08rem);line-height:1.8}
+    .recipe-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:72px 56px;margin-top:clamp(78px,10vw,120px)}
+    .recipe-card{border-top:1px solid var(--espresso);padding-top:24px}
+    .recipe-number{margin:0 0 38px;color:var(--coffee);font-size:.64rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase}
+    .recipe-card h3{max-width:500px;margin:0;font-family:var(--display);font-size:clamp(2.35rem,4.4vw,4rem);font-weight:400;letter-spacing:-.05em;line-height:.95}
+    .recipe-note{max-width:510px;margin:22px 0 0;color:var(--muted);font-size:.92rem;line-height:1.75}
+    .ingredients{list-style:none;margin:34px 0 0;padding:0;border-bottom:1px solid var(--line)}
+    .ingredients li{display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding:13px 0;border-top:1px solid var(--line);font-size:.78rem}
+    .ingredients span{color:var(--muted)}
+    .ingredients strong{font-size:.68rem;letter-spacing:.08em;text-align:right;text-transform:uppercase}
+    .recipe-method{margin:22px 0 0;font-size:.72rem;line-height:1.7;letter-spacing:.05em}
+    .recipe-method strong{color:var(--coffee);font-size:.63rem;letter-spacing:.16em;text-transform:uppercase}
     .find-us{position:relative;padding:clamp(110px,14vw,180px) 0;background:var(--cream);color:var(--espresso);text-align:center;border-top:1px solid var(--line)}
     .find-us:before{content:"";display:block;width:1px;height:54px;margin:0 auto 46px;background:var(--camel)}
     .find-us .eyebrow{color:var(--coffee)}
@@ -76,6 +91,10 @@
       .hero-grid{padding:175px 0 78px}
       .hero{min-height:auto}
       h1{font-size:clamp(3.8rem,18vw,6.4rem)}
+      .signature-intro{grid-template-columns:1fr;gap:8px}
+      .signature-intro .eyebrow{padding-top:0}
+      .recipe-grid{grid-template-columns:1fr;gap:58px}
+      .ingredients li{gap:16px}
       .footer-inner{align-items:flex-start;flex-direction:column}
       .footer-meta{text-align:left}
     }
@@ -114,8 +133,74 @@
           <p class="hero-copy">Nevaeh is a coffee cart built for pop-ups. Find us pouring espresso drinks at markets, community gatherings, and special locations across Central Florida.</p>
           <div class="actions">
             <a class="button" href="#find-us">Find the cart</a>
-            <a class="button secondary" href="mailto:info@nevaeh-coffee.com?subject=Pop-up%20inquiry">Host a pop-up</a>
+            <a class="button secondary" href="#signatures">Signature drinks</a>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="signatures" id="signatures">
+      <div class="wrap">
+        <div class="signature-intro">
+          <p class="eyebrow">Our signature recipes</p>
+          <div>
+            <h2>Four drinks.<br><em>One beautiful ritual.</em></h2>
+            <p class="signature-copy">Every Nevaeh signature starts with a double shot and a little imagination. These are the cups we come back to—layered, balanced, and made to feel like a treat.</p>
+          </div>
+        </div>
+
+        <div class="recipe-grid">
+          <article class="recipe-card">
+            <p class="recipe-number">Signature 01</p>
+            <h3>Honey Vanilla Latte</h3>
+            <p class="recipe-note">Floral honey and soft vanilla round out a rich double shot without hiding the coffee.</p>
+            <ul class="ingredients" aria-label="Honey Vanilla Latte ingredients">
+              <li><span>Espresso</span><strong>2 shots</strong></li>
+              <li><span>Honey-vanilla syrup</span><strong>1 tbsp</strong></li>
+              <li><span>Milk of choice</span><strong>8 oz</strong></li>
+            </ul>
+            <p class="recipe-method"><strong>Make it</strong><br>Stir syrup into espresso, then finish with steamed milk or pour over ice with cold milk.</p>
+          </article>
+
+          <article class="recipe-card">
+            <p class="recipe-number">Signature 02</p>
+            <h3>Maple Pancake Shaken Espresso</h3>
+            <p class="recipe-note">Pure maple, vanilla, and cinnamon make this iced espresso taste like a slow Sunday morning.</p>
+            <ul class="ingredients" aria-label="Maple Pancake Shaken Espresso ingredients">
+              <li><span>Espresso</span><strong>2 shots</strong></li>
+              <li><span>Pure maple syrup</span><strong>1 tbsp</strong></li>
+              <li><span>Vanilla &amp; cinnamon</span><strong>A touch</strong></li>
+              <li><span>Oat milk</span><strong>4 oz</strong></li>
+            </ul>
+            <p class="recipe-method"><strong>Make it</strong><br>Shake espresso, maple, vanilla, cinnamon, and ice until frothy; pour and top with oat milk.</p>
+          </article>
+
+          <article class="recipe-card">
+            <p class="recipe-number">Signature 03</p>
+            <h3>Pumpkin Spiced Latte</h3>
+            <p class="recipe-note">Real pumpkin warmth, baking spice, and velvety milk—an autumn classic with Nevaeh polish.</p>
+            <ul class="ingredients" aria-label="Pumpkin Spiced Latte ingredients">
+              <li><span>Espresso</span><strong>2 shots</strong></li>
+              <li><span>Pumpkin spice sauce</span><strong>1½ tbsp</strong></li>
+              <li><span>Milk of choice</span><strong>8 oz</strong></li>
+              <li><span>Pumpkin pie spice</span><strong>To finish</strong></li>
+            </ul>
+            <p class="recipe-method"><strong>Make it</strong><br>Blend sauce with espresso, add steamed milk, and finish with a dusting of pumpkin pie spice.</p>
+          </article>
+
+          <article class="recipe-card">
+            <p class="recipe-number">Signature 04</p>
+            <h3>Tiramisu Latte</h3>
+            <p class="recipe-note">Espresso, vanilla, creamy mascarpone-inspired foam, and cocoa in a dessert-like final pour.</p>
+            <ul class="ingredients" aria-label="Tiramisu Latte ingredients">
+              <li><span>Espresso</span><strong>2 shots</strong></li>
+              <li><span>Vanilla syrup</span><strong>1 tbsp</strong></li>
+              <li><span>Milk of choice</span><strong>6 oz</strong></li>
+              <li><span>Mascarpone cold foam</span><strong>2 oz</strong></li>
+              <li><span>Cocoa powder</span><strong>To finish</strong></li>
+            </ul>
+            <p class="recipe-method"><strong>Make it</strong><br>Combine espresso, vanilla, and milk; crown with mascarpone cold foam and a fine cocoa dusting.</p>
+          </article>
         </div>
       </div>
     </section>
