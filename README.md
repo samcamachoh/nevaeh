@@ -9,6 +9,8 @@ A focused, static landing page for Nevaeh — a mobile coffee cart appearing at 
 
 The site is intentionally lightweight: one HTML file, no dependencies, no build step, no embedded forms, and no client-side JavaScript.
 
+The visual direction is luxurious and minimal: deep espresso, warm ivory, muted bronze, high-contrast editorial typography, fine rules, and generous spacing. The landing page intentionally uses no photography.
+
 ## Files
 
 | File | Purpose |
