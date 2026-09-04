@@ -43,7 +43,7 @@
     .contact-link{text-decoration:none;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border-bottom:1px solid var(--camel);padding-bottom:4px}
     .hero{min-height:100svh;background:var(--espresso);color:var(--cream);display:grid;align-items:end;overflow:hidden;position:relative}
     .hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 25%,rgba(203,169,138,.16),transparent 36%)}
-    .hero-grid{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(280px,.65fr);gap:clamp(40px,8vw,110px);align-items:end;padding:150px 0 72px}
+    .hero-grid{position:relative;display:block;padding:clamp(180px,24vh,260px) 0 clamp(76px,11vh,120px)}
     .eyebrow{margin:0 0 20px;color:var(--camel);font-size:.75rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
     h1,h2{font-family:var(--display);font-weight:400;letter-spacing:-.045em;line-height:.94;margin:0;text-wrap:balance}
     h1{font-size:clamp(4rem,9.5vw,8.6rem);max-width:820px}
@@ -54,17 +54,7 @@
     .button:hover{transform:translateY(-2px);background:#d9b99b}
     .button.secondary{background:transparent;color:var(--cream);border-color:rgba(241,243,232,.4)}
     .button.secondary:hover{border-color:var(--cream);background:rgba(241,243,232,.06)}
-    .hero-card{border:1px solid rgba(241,243,232,.2);padding:14px 14px 22px;background:rgba(241,243,232,.04)}
-    .hero-card img{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--cream)}
-    .hero-card p{margin:16px 4px 0;font-size:.71rem;letter-spacing:.13em;text-transform:uppercase;color:rgba(241,243,232,.62)}
-    .menu{padding:clamp(76px,10vw,130px) 0;background:var(--paper)}
-    .section-grid{display:grid;grid-template-columns:.72fr 1.28fr;gap:clamp(50px,9vw,120px)}
     h2{font-size:clamp(3rem,6vw,5.6rem)}
-    .section-intro{margin:24px 0 0;color:var(--muted);max-width:38ch}
-    .drink-list{margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}
-    .drink-list li{display:flex;justify-content:space-between;gap:24px;padding:19px 0;border-bottom:1px solid var(--line);font-size:clamp(1.05rem,2vw,1.35rem)}
-    .drink-list span:last-child{font-size:.77rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:5px;text-align:right}
-    .menu-note{margin:24px 0 0;color:var(--muted);font-size:.9rem}
     .find-us{padding:clamp(80px,11vw,140px) 0;background:var(--camel);color:var(--espresso);text-align:center}
     .find-us .eyebrow{color:var(--coffee)}
     .find-us h2{max-width:900px;margin-inline:auto}
@@ -80,13 +70,9 @@
       .wrap{width:min(100% - 30px,1120px)}
       .nav{min-height:72px}
       .brand{max-width:180px;line-height:1.25}
-      .hero-grid{grid-template-columns:1fr;padding:128px 0 48px;gap:42px}
+      .hero-grid{padding:150px 0 64px}
       .hero{min-height:auto}
       h1{font-size:clamp(3.65rem,18vw,6rem)}
-      .hero-card{max-width:430px}
-      .hero-card img{aspect-ratio:5/4}
-      .section-grid{grid-template-columns:1fr;gap:48px}
-      .drink-list li{font-size:1.05rem}
       .footer-inner{align-items:flex-start;flex-direction:column}
       .footer-meta{text-align:left}
     }
@@ -125,30 +111,6 @@
             <a class="button" href="#find-us">Find the cart</a>
             <a class="button secondary" href="mailto:info@nevaeh-coffee.com?subject=Pop-up%20inquiry">Host a pop-up</a>
           </div>
-        </div>
-        <div class="hero-card">
-          <img src="N Responsive.jpg" alt="Nevaeh Coffee Company" width="1200" height="1500">
-          <p>Small cart · Proper coffee</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="menu" id="menu">
-      <div class="wrap section-grid">
-        <div>
-          <p class="eyebrow">What we're pouring</p>
-          <h2>A short menu,<br><em>done well.</em></h2>
-          <p class="section-intro">The exact menu changes from one pop-up to the next, with seasonal drinks appearing along the way.</p>
-        </div>
-        <div>
-          <ul class="drink-list">
-            <li><span>Espresso</span><span>Hot</span></li>
-            <li><span>Latte</span><span>Hot or iced</span></li>
-            <li><span>Americano</span><span>Hot or iced</span></li>
-            <li><span>Cold brew</span><span>Cold</span></li>
-            <li><span>Seasonal drink</span><span>Ask at the cart</span></li>
-          </ul>
-          <p class="menu-note">Oat and almond milk available. Menu and availability may vary by pop-up.</p>
         </div>
       </div>
     </section>
